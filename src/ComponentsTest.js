@@ -87,13 +87,10 @@ class ComponentsTest extends React.Component {
 				/>
 				<br/>
 				<TimeInput
-					timeFormat={24}
-					floatingLabelText="Time"
+					timeFormat={ 24 }
+					label="Time"
 					onChange={ this.props.setTime }
-					disabled={ false }
 					locale='cs'
-					errorText=''
-					warnText=''
 					value={ this.props.time }
 					enableMousePicker
 				/>

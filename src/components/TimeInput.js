@@ -5,11 +5,10 @@ import moment from 'moment';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import AlarmIcon from 'material-ui/svg-icons/action/alarm';
 
-import { colors } from './utils/material.js';
+import { transformProps, colors } from './utils/material.js';
 
 class TimeInput extends React.Component{
 	static propTypes = {
-		alias: PropTypes.string,
 		timeFormat: PropTypes.number,
 		label: PropTypes.string,
 		onBlur: PropTypes.func,
@@ -22,7 +21,8 @@ class TimeInput extends React.Component{
 	};
 
 	static defaultProps = {
-		onChange: () => {}
+		onChange: () => {},
+		onBlur: () => {}
 	};
 
 	constructor(props) {
@@ -33,7 +33,18 @@ class TimeInput extends React.Component{
 		};
 	}
 
-	giveMeTime(elem) {
+	componentWillReceiveProps(newProps) {
+		if (!newProps.value) {
+			this.setState({
+				toDisplay: '',
+			});
+		} else {
+			const momentTime = this.getFormatedTime(newProps.value);
+			this.setState({toDisplay: momentTime});
+		}
+	}
+
+	makeADate(elem) {
 		let newDate = new Date();
 		const day = newDate.getDate();
 		const year = newDate.getFullYear();
@@ -45,7 +56,7 @@ class TimeInput extends React.Component{
 		let suffix;
 		if (result[2]) minutes = parseInt(result[2]);
 		if (result[3]) suffix = result[3];
-		if (suffix && suffix === 'pm') hours = hours + 12;
+		if (suffix === 'pm') hours = hours + 12;
 		const subDate = new Date(year, month, day, hours, minutes)
 		newDate = subDate;
 		return newDate;
@@ -61,46 +72,29 @@ class TimeInput extends React.Component{
 		return moment.parseZone(date).format(formatForMoment);
 	}
 
-	componentWillReceiveProps(newProps) {
-		if (!newProps.value) {
-			this.setState({
-				toDisplay: '',
-			});
-		} else {
-			const momentTime = this.getFormatedTime(newProps.value);
-			this.setState({toDisplay: momentTime});
-		}
-	}
-
 	handleOnBlur(e) {
 		const elem = e.target.value;
 		if (elem) {
-			const outputDate = this.giveMeTime(elem);
+			const outputDate = this.makeADate(elem);
 			this.props.onChange(outputDate);
 		} else {
-			this.setState({typing: false});
+			this.props.onChange(undefined);
 		}
-
+		if (this.state.typing) this.setState({typing: false});
 	}
 
-	handleOnClick() {
-		this.refs.timePicker.show();
-	}
-
-	handleOnChange(e) {
+	handleTyping(e) {
 		this.setState({toDisplay: e.target.value, typing: true});
 	}
 
 	handleOnChangeOfTimePicker(e) {
 		this.props.onChange(e);
-		this.setState({
-			typing: !this.state.typing,
-		});
+		if (this.state.typing) this.setState({ typing: false });
 	}
 
 	handleOnKeyDown(e) {
 		if (e.keyCode === 13) {
-			const outputDate = this.giveMeTime(e.target.value);
+			const outputDate = this.makeADate(e.target.value);
 			this.props.onChange(outputDate);
 		}
 	}
@@ -109,10 +103,11 @@ class TimeInput extends React.Component{
 		if (enableMousePicker) {
 			return (
 				<AlarmIcon
+					key='alarm'
 					color={ colors.disabled }
 					hoverColor={ colors.info }
 					style={{ ...style, width: '18px', height: '18px' }}
-					onClick={ this.handleOnClick.bind(this) }
+					onClick={ () => { this.refs.timePicker.show() } }
 				/>
 			);
 		}
@@ -151,24 +146,21 @@ class TimeInput extends React.Component{
 
 
 	render() {
-		const { errorText, warnText, enableMousePicker, disabled, floatingLabelText, value } = this.props;
-		const isTyping = this.state.typing;
+		const { errorText, warnText, enableMousePicker, value } = this.props;
 
 		return (
 			<div id={ `timeinput` }>
 				<TextField
-						disabled={ disabled }
-						floatingLabelText={ floatingLabelText }
-						errorStyle={ {color: colors.error} }
+						{ ...transformProps(TextField, this.props) }
 						underlineFocusStyle={ {color: colors.info} }
 						onBlur={ this.handleOnBlur.bind(this) }
-						onChange={ this.handleOnChange.bind(this) }
+						onChange={ this.handleTyping.bind(this) }
 						value={ this.state.toDisplay }
 						onKeyDown={this.handleOnKeyDown.bind(this)}
 						errorText={ errorText || warnText }
 						errorStyle={ {color: errorText ? colors.error : colors.warning} }
 				/>
-				{ this._getPluginIcons({value, isTyping, enableMousePicker}) }
+			{ this._getPluginIcons({value, isTyping: this.state.typing, enableMousePicker}) }
 				<TimePickerDialog
 					ref="timePicker"
 					format={ this.props.timeFormat === 'ampm' ? 'ampm' : '24hr' }
@@ -178,7 +170,6 @@ class TimeInput extends React.Component{
 			</div>
 		);
 	}
-
-};
+}
 
 export default TimeInput;
