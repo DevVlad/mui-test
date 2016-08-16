@@ -51,12 +51,12 @@ class TimeInput extends React.Component{
 		const month = newDate.getMonth();
 		const re = /\b(\d{1,2})(?:\D{0,}?(\d{1,2}))?(?:\D{0,}?([a-z]+))?/i;
 		const result = re.exec(elem);
-		let hours = parseInt(result[1]);
+		let hours = parseInt(result[1], 10);
 		let minutes = 0;
 		let suffix;
-		if (result[2]) minutes = parseInt(result[2]);
+		if (result[2]) minutes = parseInt(result[2], 10);
 		if (result[3]) suffix = result[3];
-		if (suffix === 'pm') hours = hours + 12;
+		if (suffix === 'pm') hours += 12;
 		const subDate = new Date(year, month, day, hours, minutes)
 		newDate = subDate;
 		return newDate;
@@ -143,7 +143,6 @@ class TimeInput extends React.Component{
 		});
 		return icons;
 	};
-
 
 	render() {
 		const { errorText, warnText, enableMousePicker, value } = this.props;

@@ -8,6 +8,7 @@ import DropdownInput from './components/DropdownInput.js';
 import EntityInput from './components/EntityInput.js';
 import AutoComplete from './components/material-ui/AutoComplete.js';
 import TimeInput from './components/TimeInput.js';
+import DateInput from './components/DateInput.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
 const DATA = [
@@ -36,6 +37,7 @@ class ComponentsTest extends React.Component {
 			this.props.setEntityId(107);
 			this.setState({ defaultEntityId: undefined});
 		}
+
 		return (
 			<div>
 				<TextInput
@@ -94,6 +96,15 @@ class ComponentsTest extends React.Component {
 					value={ this.props.time }
 					enableMousePicker
 				/>
+				<br />
+					<DateInput
+						label="Date"
+						onChange={ this.props.setDate }
+						value={ this.props.date }
+						enableMousePicker
+						locale='cs'
+						// displayFormat="YYYY/MM/DD"
+					/>
 				{/*
 				<br/>
 				<DropdownInput
@@ -118,5 +129,5 @@ class ComponentsTest extends React.Component {
 }
 
 export default connect(
-	...TestDuck.connect('text', 'dropdown', 'dropdownId', 'entityId', 'time')
+	...TestDuck.connect('text', 'dropdown', 'dropdownId', 'entityId', 'time', 'date')
 )(ComponentsTest);
