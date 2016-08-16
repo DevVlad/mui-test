@@ -7,6 +7,7 @@ import TextInput from './components/TextInput.js';
 import DropdownInput from './components/DropdownInput.js';
 import EntityInput from './components/EntityInput.js';
 import AutoComplete from './components/material-ui/AutoComplete.js';
+import TimeField from './components/TimeField.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
 const DATA = [
@@ -84,6 +85,18 @@ class ComponentsTest extends React.Component {
 					entityToText={e => e.name}
 					entityToValue={e => e.id}
 				/>
+				<br/>
+				<TimeField
+					timeFormat={24}
+					floatingLabelText="TimeField"
+					onChange={ this.props.setTimefield }
+					disabled={ false }
+					locale='cs'
+					errorText=''
+					warnText=''
+					value={ this.props.timefield }
+					enableMousePicker
+				/>
 				{/*
 				<br/>
 				<DropdownInput
@@ -108,5 +121,5 @@ class ComponentsTest extends React.Component {
 }
 
 export default connect(
-	...TestDuck.connect('text', 'dropdown', 'dropdownId', 'entityId')
+	...TestDuck.connect('text', 'dropdown', 'dropdownId', 'entityId', 'timefield')
 )(ComponentsTest);
