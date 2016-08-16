@@ -7,7 +7,7 @@ import AlarmIcon from 'material-ui/svg-icons/action/alarm';
 
 import { colors } from './utils/material.js';
 
-class TimeField extends React.Component{
+class TimeInput extends React.Component{
 	static propTypes = {
 		alias: PropTypes.string,
 		timeFormat: PropTypes.number,
@@ -108,20 +108,12 @@ class TimeField extends React.Component{
 	timeIconPlugin = ({style, enableMousePicker}) => {
 		if (enableMousePicker) {
 			return (
-				<div key={ `enabledMousePicker` }>
-					<AlarmIcon
-						color={ colors.disabled }
-						hoverColor={ colors.info }
-						style={{ ...style, width: '18px', height: '18px' }}
-						onClick={ this.handleOnClick.bind(this) }
-					/>
-					<TimePickerDialog
-							ref="timePicker"
-							format={ this.props.timeFormat === 'ampm' ? 'ampm' : '24hr' }
-							onAccept={ this.handleOnChangeOfTimePicker.bind(this) }
-							initialTime={ this.props.value || new Date() }
-					/>
-				</div>
+				<AlarmIcon
+					color={ colors.disabled }
+					hoverColor={ colors.info }
+					style={{ ...style, width: '18px', height: '18px' }}
+					onClick={ this.handleOnClick.bind(this) }
+				/>
 			);
 		}
 		return null;
@@ -147,8 +139,8 @@ class TimeField extends React.Component{
 		plugins.forEach(plugin => {
 			const pluginIcon = plugin({
 				...variables,
-				style: { transform: `translate(${-20 * index + 236}px, ${-35 / (index + 1)}px)` }}
-			);
+				style: { transform: `translate(${-40 * index - 20}px, 5px)` }
+			});
 			if (pluginIcon) {
 				icons.push(pluginIcon);
 				index++;
@@ -163,7 +155,7 @@ class TimeField extends React.Component{
 		const isTyping = this.state.typing;
 
 		return (
-			<div id={ `timefield` }>
+			<div id={ `timeinput` }>
 				<TextField
 						disabled={ disabled }
 						floatingLabelText={ floatingLabelText }
@@ -176,11 +168,17 @@ class TimeField extends React.Component{
 						errorText={ errorText || warnText }
 						errorStyle={ {color: errorText ? colors.error : colors.warning} }
 				/>
-			{ this._getPluginIcons({value, isTyping, enableMousePicker}) }
+				{ this._getPluginIcons({value, isTyping, enableMousePicker}) }
+				<TimePickerDialog
+					ref="timePicker"
+					format={ this.props.timeFormat === 'ampm' ? 'ampm' : '24hr' }
+					onAccept={ this.handleOnChangeOfTimePicker.bind(this) }
+					initialTime={ this.props.value || new Date() }
+				/>
 			</div>
 		);
 	}
 
 };
 
-export default TimeField;
+export default TimeInput;
