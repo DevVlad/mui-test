@@ -32,12 +32,14 @@ class ComponentsTest extends React.Component {
 		this.state = { defaultEntityId: 107 };
 	}
 
-	render() {
+	componentWillMount() {
 		if (this.state.defaultEntityId) {
 			this.props.setEntityId(107);
 			this.setState({ defaultEntityId: undefined});
 		}
+	}
 
+	render() {
 		return (
 			<div>
 				<TextInput
