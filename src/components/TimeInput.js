@@ -6,6 +6,7 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 import AlarmIcon from 'material-ui/svg-icons/action/alarm';
 
 import { transformProps, colors } from './utils/material.js';
+import getPluginIcons from './utils/iconPluginHandler.js';
 
 class TimeInput extends React.Component{
 	static propTypes = {
@@ -127,23 +128,6 @@ class TimeInput extends React.Component{
 		return null;
 	};
 
-	_getPluginIcons = (variables) => {
-		const plugins = [ this.timeIconPlugin, this.clearIconPlugin ];
-		let icons = [];
-		let index = 0;
-		plugins.forEach(plugin => {
-			const pluginIcon = plugin({
-				...variables,
-				style: { transform: `translate(${-40 * index - 20}px, 5px)` }
-			});
-			if (pluginIcon) {
-				icons.push(pluginIcon);
-				index++;
-			}
-		});
-		return icons;
-	};
-
 	render() {
 		const { errorText, warnText, enableMousePicker, value } = this.props;
 
@@ -159,7 +143,7 @@ class TimeInput extends React.Component{
 						errorText={ errorText || warnText }
 						errorStyle={ {color: errorText ? colors.error : colors.warning} }
 				/>
-			{ this._getPluginIcons({value, isTyping: this.state.typing, enableMousePicker}) }
+			{ getPluginIcons({value, isTyping: this.state.typing, enableMousePicker}, [ this.timeIconPlugin, this.clearIconPlugin ]) }
 				<TimePickerDialog
 					ref="timePicker"
 					format={ this.props.timeFormat === 'ampm' ? 'ampm' : '24hr' }

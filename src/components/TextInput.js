@@ -12,6 +12,11 @@ class TextInput extends React.Component {
 		onBlur: PropTypes.func
 	};
 
+	static defaultProps = {
+		onChange: () => {},
+		onBlur: () => {},
+	};
+
 	constructor() {
 		super();
 		this.handleChange = this.handleChange.bind(this);
@@ -19,11 +24,11 @@ class TextInput extends React.Component {
 	}
 
 	handleChange(e) {
-		if (this.props.onChange) this.props.onChange(e.target.value);
+		this.props.onChange(e.target.value);
 	}
 
 	handleBlur(e) {
-		if (this.props.onBlur) this.props.onBlur(e.target.value);
+		this.props.onBlur(e.target.value);
 	}
 
 	render() {

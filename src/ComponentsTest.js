@@ -9,6 +9,7 @@ import EntityInput from './components/EntityInput.js';
 import AutoComplete from './components/material-ui/AutoComplete.js';
 import TimeInput from './components/TimeInput.js';
 import DateInput from './components/DateInput.js';
+import ToggleInput from './components/ToggleInput.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
 const DATA = [
@@ -94,19 +95,26 @@ class ComponentsTest extends React.Component {
 					timeFormat={ 24 }
 					label="Time"
 					onChange={ this.props.setTime }
-					locale='cs'
+					locale="cs"
 					value={ this.props.time }
 					enableMousePicker
 				/>
 				<br />
-					<DateInput
-						label="Date"
-						onChange={ this.props.setDate }
-						value={ this.props.date }
-						enableMousePicker
-						locale='cs'
-						// displayFormat="YYYY/MM/DD"
-					/>
+				<DateInput
+					label="Date"
+					onChange={ this.props.setDate }
+					value={ this.props.date }
+					enableMousePicker
+					locale="cs"
+					// displayFormat="YYYY/MM/DD"
+				/>
+				<br/>
+				<ToggleInput
+					label="Toggle"
+					labelPosition="right"
+					value={ this.props.toggle }
+					onChange={ this.props.setToggle }
+				/>
 				{/*
 				<br/>
 				<DropdownInput
@@ -131,5 +139,5 @@ class ComponentsTest extends React.Component {
 }
 
 export default connect(
-	...TestDuck.connect('text', 'dropdown', 'dropdownId', 'entityId', 'time', 'date')
+	...TestDuck.connect('text', 'dropdown', 'dropdownId', 'entityId', 'time', 'date', 'toggle')
 )(ComponentsTest);

@@ -6,6 +6,7 @@ import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog.js';
 import moment from 'moment';
 
 import { transformProps, colors } from './utils/material.js';
+import getPluginIcons from './utils/iconPluginHandler.js';
 
 const DATE_PART = { DAY: 'D', MONTH: 'M', YEAR: 'Y' };
 
@@ -191,23 +192,6 @@ class DateInput extends React.Component{
 		return null;
 	};
 
-	_getPluginIcons = (variables) => {
-		const plugins = [ this.dateIconPlugin, this.clearIconPlugin ];
-		let icons = [];
-		let index = 0;
-		plugins.forEach(plugin => {
-			const pluginIcon = plugin({
-				...variables,
-				style: { transform: `translate(${-40 * index - 20}px, 5px)` }
-			});
-			if (pluginIcon) {
-				icons.push(pluginIcon);
-				index++;
-			}
-		});
-		return icons;
-	};
-
 	render() {
 		const { enableMousePicker, value } = this.props;
 
@@ -220,7 +204,7 @@ class DateInput extends React.Component{
 					onKeyDown={ this.handleOnKeyDown.bind(this) }
 					onChange={ this.handleOnChange.bind(this) }
 				/>
-				{ this._getPluginIcons({ value, isTyping: this.state.typing, enableMousePicker }) }
+				{ getPluginIcons({ value, isTyping: this.state.typing, enableMousePicker }, [ this.dateIconPlugin, this.clearIconPlugin ]) }
 				<DatePickerDialog
 					ref='datePicker'
 					firstDayOfWeek={ 1 }

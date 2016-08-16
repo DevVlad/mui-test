@@ -47,6 +47,7 @@ class EntityInput extends React.Component {
 		return <MoreVertIcon
 			key="more-vert"
 			color={colors.disabled}
+			hoverColor={colors.info}
 			onClick={() => onClick(() => alert('More'))}
 			style={{ ...style, width: '18px', height: '18px' }}
 		/>;
@@ -57,6 +58,7 @@ class EntityInput extends React.Component {
 			return <AddCircleIcon
 				key="add-circle"
 				color={colors.disabled}
+				hoverColor={colors.info}
 				onClick={() => onClick(() => alert(searchText))}
 				style={{ ...style, width: '18px', height: '18px' }}
 			/>;
