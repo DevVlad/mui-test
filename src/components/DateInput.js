@@ -167,7 +167,7 @@ class DateInput extends React.Component{
 		if (enableMousePicker) {
 			return (
 				<DateIcon
-					key='date'
+					key="date"
 					color={ colors.disabled }
 					hoverColor={ colors.info }
 					style={{ ...style, width: '18px', height: '18px' }}
@@ -177,7 +177,6 @@ class DateInput extends React.Component{
 		}
 		return null;
 	};
-
 
 	clearIconPlugin = ({ style, value, isTyping }) => {
 		if (value && !isTyping) {
@@ -210,14 +209,12 @@ class DateInput extends React.Component{
 	};
 
 	render() {
-		const { errorText, warnText, enableMousePicker, value } = this.props;
+		const { enableMousePicker, value } = this.props;
 
 		return (
-			<div id={`dateinput`}>
+			<div>
 				<TextField
 					{ ...transformProps(TextField, this.props) }
-					errorText={ errorText || warnText }
-					errorStyle={ {color: errorText ? colors.error : colors.warning} }
 					onBlur={ this.handleOnBlur.bind(this) }
 					value={ this.state.toDisplay }
 					onKeyDown={ this.handleOnKeyDown.bind(this) }
@@ -235,7 +232,6 @@ class DateInput extends React.Component{
 			</div>
 		);
 	}
-
-};
+}
 
 export default DateInput;
