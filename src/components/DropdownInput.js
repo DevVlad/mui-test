@@ -4,6 +4,8 @@ import { transformProps, colors } from './utils/material.js';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import lodash from 'lodash';
 
+import getPluginIcons from './utils/iconPluginHandler.js';
+
 class DropdownInput extends React.Component {
 
 	static propTypes = {
@@ -103,33 +105,12 @@ class DropdownInput extends React.Component {
 			return <ClearIcon
 				key="clear"
 				color={colors.disabled}
+				hoverColor={colors.normal}
 				onClick={() => onClick(() => this.props.onChange(null))}
 				style={{ ...style, width: '18px', height: '18px' }}
 			/>
 		}
 		return null;
-	};
-
-	_getPluginIcons = (variables) => {
-		let plugins = [ ...this.props.plugins, this.clearIconPlugin ];
-		let icons = [];
-		let index = 0;
-		plugins.forEach(plugin => {
-			const pluginIcon = plugin({
-				...variables,
-				onClick: (innerOnClick) => {
-					clearTimeout(this.blurTimeout);
-					innerOnClick();
-					this.focus();
-				},
-				style: { transform: `translate(${-40 * index - 20}px, 5px)` }}
-			);
-			if (pluginIcon) {
-				icons.push(pluginIcon);
-				index++;
-			}
-		});
-		return icons;
 	};
 
 	render() {
@@ -148,6 +129,9 @@ class DropdownInput extends React.Component {
 			text: this._getEntityText(e)
 		}));
 		const filter = !isTyping ? AutoComplete.noFilter : this.props.filter;
+		const plugins = [ ...this.props.plugins, this.clearIconPlugin ];
+		const { errorText, warnText, passText } = this.props;
+
 		return (
 			<span>
 				<AutoComplete
@@ -165,7 +149,17 @@ class DropdownInput extends React.Component {
 					filter={filter}
 					animated={false}
 				/>
-				{ this._getPluginIcons({searchText, isValue, isTyping}) }
+			{ getPluginIcons({
+				searchText,
+				isValue,
+				isTyping,
+				onClick: (innerOnClick) => {
+					clearTimeout(this.blurTimeout);
+					innerOnClick();
+					this.focus();
+				},
+				notifications: errorText || warnText || passText
+				}, plugins) }
 			</span>
 		);
 	}

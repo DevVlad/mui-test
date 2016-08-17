@@ -11,6 +11,12 @@ export const colors = {
 
 export const transformProps = (component, props) => {
 	let newProps = {};
+	if (component.propTypes.checked && props.value) {
+		newProps = { ...newProps, checked: props.value }
+	}
+	if (component.propTypes.defaultToggled && props.value) {
+		newProps = {...newProps, defaultToggled: props.value  };
+	}
 	if (component.propTypes.floatingLabelText && props.label) {
 		newProps = { ...newProps, floatingLabelText: props.label }
 	}
@@ -35,6 +41,14 @@ export const transformProps = (component, props) => {
 				...newProps,
 				errorText: props.passText,
 				errorStyle: { color: colors.pass }
+			}
+		}
+		newProps = {
+			...newProps,
+			errorStyle: {
+				...newProps.errorStyle,
+				fontSize: 12,
+				width: 'inherit'
 			}
 		}
 	}
