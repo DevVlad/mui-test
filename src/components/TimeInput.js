@@ -77,9 +77,9 @@ class TimeInput extends React.Component{
 		const elem = e.target.value;
 		if (elem) {
 			const outputDate = this.makeADate(elem);
-			this.props.onChange(outputDate);
+			if (this.getFormatedTime(outputDate) !== this.getFormatedTime(this.props.value)) this.props.onChange(outputDate);
 		} else {
-			this.props.onChange(undefined);
+			if (this.props.value) this.props.onChange(undefined);
 		}
 		if (this.state.typing) this.setState({typing: false});
 	}
@@ -96,7 +96,7 @@ class TimeInput extends React.Component{
 	handleOnKeyDown(e) {
 		if (e.keyCode === 13) {
 			const outputDate = this.makeADate(e.target.value);
-			this.props.onChange(outputDate);
+			if (this.getFormatedTime(outputDate) !== this.getFormatedTime(this.props.value)) this.props.onChange(outputDate);
 		}
 	}
 

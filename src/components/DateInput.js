@@ -139,7 +139,7 @@ class DateInput extends React.Component{
 		if (e.keyCode === 13) {
 			const elem = e.target.value;
 			const newDate = parseDate(getDateParts(this.props.locale), elem);
-			this.props.onChange(newDate);
+			if (this.formatDate(newDate) !== this.formatDate(this.props.value)) this.props.onChange(newDate);
 		}
 
 	}
@@ -149,9 +149,9 @@ class DateInput extends React.Component{
 		if (elem) {
 			// const newDate = parseDate(['D', 'M', 'Y'], elem);
 			const newDate = parseDate(getDateParts(this.props.locale), elem);
-			this.props.onChange(newDate);
+			if (this.formatDate(newDate) !== this.formatDate(this.props.value)) this.props.onChange(newDate);
 		} else {
-			this.props.onChange(undefined);
+			if (this.props.value) this.props.onChange(undefined);
 		}
 		if (this.state.typing) this.setState({typing: false});
 	}

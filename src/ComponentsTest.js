@@ -11,6 +11,7 @@ import TimeInput from './components/TimeInput.js';
 import DateInput from './components/DateInput.js';
 import ToggleInput from './components/ToggleInput.js';
 import CheckboxInput from './components/CheckboxInput.js';
+import NumberInput from './components/NumberInput.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
 const DATA = [
@@ -169,6 +170,14 @@ class ComponentsTest extends React.Component {
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
 				/>
+				<br/>
+				<NumberInput
+					label="Number"
+					value={ this.props.number }
+					onChange={ this.props.setNumber }
+					errorText={ this.errorMsg }
+					warnText={ this.warningMsg }
+				/>
 				{/*
 				<br/>
 				<DropdownInput
@@ -203,5 +212,6 @@ export default connect(
 		'toggle',
 		'checkbox',
 		'errorProvider',
-		'warnProvider'
+		'warnProvider',
+		'number'
 ))(ComponentsTest);
