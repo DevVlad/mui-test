@@ -31,27 +31,29 @@ class NumberInput extends React.Component{
 	}
 
 	componentWillReceiveProps(newProps) {
-		if (newProps.value) this.setState({value: undefined});
+		this.setState({value: newProps.value || '', isTyping: undefined});
 	}
 
-	handleOnBlur(e) {
+	handleOnBlur() {
 		if (this.state.value && this.state.value !== this.props.value) {
-			this.props.onChange(parseInt(this.state.value));
-			this.props.onBlur(parseInt(this.state.value));
+			this.props.onChange(parseInt(this.state.value, 10));
 		} else {
-			this.props.onBlur(this.props.value);
+			if (this.props.value && !this.state.isTyping) {
+				this.props.onBlur(this.props.value);
+			} else {
+				this.props.onChange(undefined);
+			}
+
 		}
 	}
 
 	handleOnChange(e) {
 		const input = e.target.value;
-		if (input.length > 0) {
-			const validatedValue = validate(input);
-			if (validatedValue) {
-				this.setState({value: input});
-			} else {
-				console.error(`Wrong input: ${input}!`);
-			}
+		const validatedValue = validate(input);
+		if (validatedValue || !input) {
+			this.setState({value: input, isTyping: true});
+		} else {
+			console.error(`Wrong input: ${input}!`);
 		}
 	}
 
@@ -60,7 +62,7 @@ class NumberInput extends React.Component{
 			<div>
 				<TextField
 					{ ...transformProps(TextField, this.props) }
-					value={ this.state.value || this.props.value }
+					value={ this.state.value }
 					onBlur={ this.handleOnBlur.bind(this) }
 					onChange={ this.handleOnChange.bind(this) }
 				/>
