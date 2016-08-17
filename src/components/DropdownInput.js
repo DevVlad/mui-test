@@ -130,6 +130,8 @@ class DropdownInput extends React.Component {
 		}));
 		const filter = !isTyping ? AutoComplete.noFilter : this.props.filter;
 		const plugins = [ ...this.props.plugins, this.clearIconPlugin ];
+		const { errorText, warnText, passText } = this.props;
+
 		return (
 			<span>
 				<AutoComplete
@@ -155,9 +157,9 @@ class DropdownInput extends React.Component {
 					clearTimeout(this.blurTimeout);
 					innerOnClick();
 					this.focus();
-				}
-				}, plugins)
-			}
+				},
+				notifications: errorText || warnText || passText
+				}, plugins) }
 			</span>
 		);
 	}

@@ -129,7 +129,7 @@ class TimeInput extends React.Component{
 	};
 
 	render() {
-		const { errorText, warnText, enableMousePicker, value } = this.props;
+		const { errorText, warnText, passText, enableMousePicker, value } = this.props;
 
 		return (
 			<div id={ `timeinput` }>
@@ -143,7 +143,13 @@ class TimeInput extends React.Component{
 						errorText={ errorText || warnText }
 						errorStyle={ {color: errorText ? colors.error : colors.warning} }
 				/>
-			{ getPluginIcons({value, isTyping: this.state.typing, enableMousePicker}, [ this.timeIconPlugin, this.clearIconPlugin ]) }
+				{ getPluginIcons({
+					value,
+					isTyping: this.state.typing,
+					enableMousePicker,
+					notifications: errorText || warnText || passText},
+					[ this.timeIconPlugin, this.clearIconPlugin ])
+				}
 				<TimePickerDialog
 					ref="timePicker"
 					format={ this.props.timeFormat === 'ampm' ? 'ampm' : '24hr' }

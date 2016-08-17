@@ -1,18 +1,8 @@
 import React, { PropTypes } from 'react';
 import Toggle from 'material-ui/Toggle';
 import TextFieldUnderline from 'material-ui/TextField';
-import transitions from 'material-ui/styles/transitions.js';
 
 import { transformProps } from './utils/material.js';
-
-const styles = {
-	block: {
-		maxWidth: 250,
-	},
-	toggle: {
-		marginBottom: 100,
-	},
-};
 
 class ToggleInput extends React.Component{
 	static propTypes = {
@@ -31,16 +21,17 @@ class ToggleInput extends React.Component{
 		labelPosition: "right"
 	};
 
-	handleError() {
-		if (this.props.errorText || this.props.warnText) {
+	handleError(notifications) {
+		if (notifications) {
 			return (
 				<TextFieldUnderline
-					{ ...transformProps(TextFieldUnderline, this.props) }
+					id="ToggleInput_defaultAlias_UnderlineForNotify"
+					{ ...transformProps(TextFieldUnderline, notifications) }
 					style={ {
 						fontSize: 12,
-						transition: transitions.easeOut(),
-						transform: 'translate(46px, -60px)',
+						transform: 'translate(46px, -20px)',
 						width: '0px',
+						height:'0px'
 					} }
 					disabled
 				/>
@@ -49,17 +40,16 @@ class ToggleInput extends React.Component{
 	}
 
 	render() {
-		const { value, ...restProps } = this.props;
+		const { errorText, warnText, passText, ...restProps } = this.props;
 		return (
-			<div style={styles.block}>
+			<div>
 				<Toggle
 					{...restProps}
-					defaultToggled={ value }
-					style={ styles.toggle }
+					{ ...transformProps(Toggle, restProps) }
 					onBlur={ () => this.props.onBlur(this.props.value) }
 					onToggle={ () => this.props.onChange(!this.props.value) }
 				/>
-				{ this.handleError() }
+			{ this.handleError({errorText, warnText, passText}) }
 			</div>
 		);
 	}

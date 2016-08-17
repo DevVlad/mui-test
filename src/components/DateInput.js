@@ -31,6 +31,7 @@ const getDateParts = (locale) => {
 				case 3:
 					result.push(DATE_PART.DAY);
 					break;
+				default: break;
 			}
 		}
 		knownLocales[locale] = result;
@@ -193,7 +194,7 @@ class DateInput extends React.Component{
 	};
 
 	render() {
-		const { enableMousePicker, value } = this.props;
+		const { enableMousePicker, value, errorText, warnText, passText } = this.props;
 
 		return (
 			<div>
@@ -204,7 +205,13 @@ class DateInput extends React.Component{
 					onKeyDown={ this.handleOnKeyDown.bind(this) }
 					onChange={ this.handleOnChange.bind(this) }
 				/>
-				{ getPluginIcons({ value, isTyping: this.state.typing, enableMousePicker }, [ this.dateIconPlugin, this.clearIconPlugin ]) }
+				{ getPluginIcons({
+					value,
+					isTyping: this.state.typing,
+					enableMousePicker,
+					notifications: errorText || warnText || passText},
+					[ this.dateIconPlugin, this.clearIconPlugin ])
+				}
 				<DatePickerDialog
 					ref='datePicker'
 					firstDayOfWeek={ 1 }
