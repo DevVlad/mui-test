@@ -11,12 +11,6 @@ export const colors = {
 
 export const transformProps = (component, props) => {
 	let newProps = {};
-	if (component.propTypes.checked && props.value) {
-		newProps = { ...newProps, checked: props.value }
-	}
-	if (component.propTypes.defaultToggled && props.value) {
-		newProps = {...newProps, defaultToggled: props.value  };
-	}
 	if (component.propTypes.floatingLabelText && props.label) {
 		newProps = { ...newProps, floatingLabelText: props.label }
 	}

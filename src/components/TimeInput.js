@@ -7,8 +7,9 @@ import AlarmIcon from 'material-ui/svg-icons/action/alarm';
 
 import { transformProps, colors } from './utils/material.js';
 import getPluginIcons from './utils/iconPluginHandler.js';
+import PureComponent from 'react-pure-render/component';
 
-class TimeInput extends React.Component{
+class TimeInput extends PureComponent{
 	static propTypes = {
 		timeFormat: PropTypes.number,
 		label: PropTypes.string,
@@ -129,10 +130,12 @@ class TimeInput extends React.Component{
 	};
 
 	render() {
+		console.log('>>> TimeInput', this.props.label);
+
 		const { errorText, warnText, passText, enableMousePicker, value } = this.props;
 
 		return (
-			<div id={ `timeinput` }>
+			<div>
 				<TextField
 						{ ...transformProps(TextField, this.props) }
 						underlineFocusStyle={ {color: colors.info} }

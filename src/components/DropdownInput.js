@@ -3,10 +3,11 @@ import AutoComplete from './material-ui/AutoComplete.js';
 import { transformProps, colors } from './utils/material.js';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import lodash from 'lodash';
+import PureComponent from 'react-pure-render/component';
 
 import getPluginIcons from './utils/iconPluginHandler.js';
 
-class DropdownInput extends React.Component {
+class DropdownInput extends PureComponent {
 
 	static propTypes = {
 		label: PropTypes.string,
@@ -114,6 +115,8 @@ class DropdownInput extends React.Component {
 	};
 
 	render() {
+		console.log('>>> DropdownInput', this.props.label);
+
 		let searchText = this.state.searchText;
 		const isValue = this.props.value !== undefined && this.props.value !== null;
 		const isTyping = searchText !== undefined;

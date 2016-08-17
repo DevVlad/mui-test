@@ -2,14 +2,9 @@ import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 
 import { transformProps } from './utils/material.js';
+import PureComponent from 'react-pure-render/component';
 
-const validate = (input) => {
-	const re = /\b\d+$/;
-	const result = re.test(input);
-	return result;
-};
-
-class NumberInput extends React.Component{
+class NumberInput extends PureComponent {
 	static propTypes = {
 		label: PropTypes.string,
 		errorText: PropTypes.string,
@@ -23,6 +18,11 @@ class NumberInput extends React.Component{
 	static defaultProps = {
 		onChange: () => {},
 		onBlur: () => {}
+	};
+
+	static _validateNumber = (input) => {
+		const re = /\b\d+$/;
+		return re.test(input);
 	};
 
 	constructor() {
@@ -49,7 +49,7 @@ class NumberInput extends React.Component{
 
 	handleOnChange(e) {
 		const input = e.target.value;
-		const validatedValue = validate(input);
+		const validatedValue = NumberInput._validateNumber(input);
 		if (validatedValue || !input) {
 			this.setState({value: input, isTyping: true});
 		} else {
@@ -58,6 +58,8 @@ class NumberInput extends React.Component{
 	}
 
 	render() {
+		console.log('>>> NumberInput', this.props.label);
+
 		return (
 			<div>
 				<TextField

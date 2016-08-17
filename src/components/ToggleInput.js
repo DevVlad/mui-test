@@ -3,8 +3,9 @@ import Toggle from 'material-ui/Toggle';
 import TextFieldUnderline from 'material-ui/TextField';
 
 import { transformProps } from './utils/material.js';
+import PureComponent from 'react-pure-render/component';
 
-class ToggleInput extends React.Component{
+class ToggleInput extends PureComponent{
 	static propTypes = {
 		label: PropTypes.string,
 		onBlur: PropTypes.func,
@@ -17,7 +18,6 @@ class ToggleInput extends React.Component{
 	static defaultProps = {
 		onChange: () => {},
 		onBlur: () => {},
-		value: false,
 		labelPosition: "right"
 	};
 
@@ -40,20 +40,22 @@ class ToggleInput extends React.Component{
 	}
 
 	render() {
+		console.log('>>> ToggleInput', this.props.label);
+
 		const { errorText, warnText, passText, ...restProps } = this.props;
 		return (
 			<div>
 				<Toggle
 					{...restProps}
 					{ ...transformProps(Toggle, restProps) }
+					value={this.props.value}
 					onBlur={ () => this.props.onBlur(this.props.value) }
 					onToggle={ () => this.props.onChange(!this.props.value) }
 				/>
-			{ this.handleError({errorText, warnText, passText}) }
+				{ this.handleError({errorText, warnText, passText}) }
 			</div>
 		);
 	}
-
-};
+}
 
 export default ToggleInput;

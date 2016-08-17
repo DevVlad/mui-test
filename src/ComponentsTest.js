@@ -28,6 +28,14 @@ const DATA_STRINGS = DATA.map(e => e.name);
 
 const KONTAKT_FIELDS = 	['jmeno', 'prijmeni', 'email', 'mobil', 'tel'];
 
+const NOOP = () => {};
+
+const jmenoPrijmeni = e => [e.jmeno, e.prijmeni].join(' ').trim();
+const kontaktCondition = t => KONTAKT_FIELDS.map(f => ({ left: f, right: `${t}` }));
+const entityName = e => e.name;
+const entityId = e => e.id;
+
+
 class ComponentsTest extends React.Component {
 
 	constructor() {
@@ -66,15 +74,17 @@ class ComponentsTest extends React.Component {
 				<CheckboxInput
 					label="Provide error msg"
 					value={ this.props.errorProvider }
-					onChange={ this.handleProvideErr.bind(this) }
+					onChange={ this.handleProvideErr }
+					onBlur={NOOP}
 				/>
 				<CheckboxInput
 					label="Provide warning msg"
 					value={ this.props.warnProvider }
-					onChange={ this.handleProvideWarn.bind(this) }
+					onChange={ this.handleProvideWarn }
+					onBlur={NOOP}
 				/>
 				<TextInput
-					label="TextInput"
+					label="TextInput1"
 					value={this.props.text}
 					onChange={this.props.setText}
 					errorText={ this.errorMsg }
@@ -82,9 +92,16 @@ class ComponentsTest extends React.Component {
 				/>
 				<br/>
 				<TextInput
-					label="TextInput"
+					label="TextInput2"
 					value={this.props.text}
 					onChange={this.props.setText}
+					errorText={ this.errorMsg }
+					warnText={ this.warningMsg }
+				/>
+				<TextInput
+					label="Other"
+					value={this.props.other}
+					onChange={this.props.setOther}
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
 				/>
@@ -93,8 +110,8 @@ class ComponentsTest extends React.Component {
 					alias="a"
 					label="EntityInput"
 					entityType="kontakt"
-					entityToText={e => [e.jmeno, e.prijmeni].join(' ').trim()}
-					filterToCondition={t => KONTAKT_FIELDS.map(f => ({ left: f, right: `${t}` }))}
+					entityToText={jmenoPrijmeni}
+					filterToCondition={kontaktCondition}
 					onChange={this.props.setEntityId}
 					value={this.props.entityId || this.defaultEntityId}
 					errorText={ this.errorMsg }
@@ -105,8 +122,8 @@ class ComponentsTest extends React.Component {
 					alias="a"
 					label="EntityInput"
 					entityType="kontakt"
-					entityToText={e => [e.jmeno, e.prijmeni].join(' ').trim()}
-					filterToCondition={t => KONTAKT_FIELDS.map(f => ({ left: f, right: `${t}` }))}
+					entityToText={jmenoPrijmeni}
+					filterToCondition={kontaktCondition}
 					onChange={this.props.setEntityId}
 					value={this.props.entityId || this.defaultEntityId}
 					errorText={ this.errorMsg }
@@ -127,8 +144,8 @@ class ComponentsTest extends React.Component {
 					value={this.props.dropdownId}
 					onChange={this.props.setDropdownId}
 					data={DATA}
-					entityToText={e => e.name}
-					entityToValue={e => e.id}
+					entityToText={entityName}
+					entityToValue={entityId}
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
 				/>
@@ -159,6 +176,7 @@ class ComponentsTest extends React.Component {
 					label="Toggle"
 					value={ this.props.toggle }
 					onChange={ this.props.setToggle }
+					onBlur={NOOP}
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
 				/>
@@ -204,6 +222,7 @@ class ComponentsTest extends React.Component {
 export default connect(
 	...TestDuck.connect(
 		'text',
+		'other',
 		'dropdown',
 		'dropdownId',
 		'entityId',

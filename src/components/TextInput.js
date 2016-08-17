@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import { transformProps } from './utils/material.js';
+import PureComponent from 'react-pure-render/component';
 
-class TextInput extends React.Component {
+class TextInput extends PureComponent {
 	static propTypes = {
 		label: PropTypes.string,
 		value: PropTypes.string,
@@ -32,9 +33,13 @@ class TextInput extends React.Component {
 	}
 
 	render() {
+		console.log('>>> TextInput', this.props.label);
+
 		return (
 			<TextField
+			// <input type="text"
 				{ ...transformProps(TextField, this.props) }
+				value={this.props.value}
 				onChange={this.handleChange}
 				onBlur={this.handleBlur}
 			/>

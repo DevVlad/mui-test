@@ -12,6 +12,7 @@
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-keydown": "^1.6.2",
+    "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",

@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { transformProps, colors } from './utils/material.js';
 import getPluginIcons from './utils/iconPluginHandler.js';
+import PureComponent from 'react-pure-render/component';
 
 const DATE_PART = { DAY: 'D', MONTH: 'M', YEAR: 'Y' };
 
@@ -88,7 +89,7 @@ const parseDate = (parts, text) => {
 	return new Date(year, month - 1, day);
 };
 
-class DateInput extends React.Component{
+class DateInput extends PureComponent {
 	static propTypes = {
 		label: PropTypes.string,
 		onChange: PropTypes.func,
@@ -194,6 +195,8 @@ class DateInput extends React.Component{
 	};
 
 	render() {
+		console.log('>>> DateInput', this.props.label);
+
 		const { enableMousePicker, value, errorText, warnText, passText } = this.props;
 
 		return (

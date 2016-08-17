@@ -42,14 +42,14 @@ TestDuck.getValue = (name) => createSelector(
 
 TestDuck.mapStateToProps = (...names) => (state) => {
 	return names.reduce((root, name) => {
-		root[name] = toJS(TestDuck.getValue(name)(state));
+		root[name] = TestDuck.getValue(name)(state);
 		return root;
 	}, {});
 };
 
 TestDuck.mapDispatchToProps = (...names) => {
 	return names.reduce((root, name) => {
-		root[`set${lodash.upperFirst(name)}`] = (value) => TestDuck.setValue(name, value)
+		root[`set${lodash.upperFirst(name)}`] = (value) => TestDuck.setValue(name, value);
 		return root;
 	}, {});
 };

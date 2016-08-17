@@ -9,8 +9,9 @@ import { colors } from './utils/material.js';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import AddCircleIcon from 'material-ui/svg-icons/content/add-circle'
 // import ArrowDropDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import PureComponent from 'react-pure-render/component';
 
-class EntityInput extends React.Component {
+class EntityInput extends PureComponent {
 
 	static propTypes = {
 		...DropdownInput.propTypes,
@@ -67,7 +68,9 @@ class EntityInput extends React.Component {
 	};
 
 
-render() {
+	render() {
+		console.log('>>> EntityInput', this.props.label);
+
 		const { alias, entityType, value } = this.props;
 		const isValue = value !== undefined && value !== null;
 		const list = toJS(this.props.list);
