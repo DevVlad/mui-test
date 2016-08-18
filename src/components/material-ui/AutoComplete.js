@@ -537,6 +537,7 @@ class AutoComplete extends Component {
 					errorStyle={errorStyle}
 					style={textFieldStyle}
 
+					inputStyle={{ paddingLeft: '5px' }}
 					onClick={this._handleClick.bind(this)}
 				/>
 				<Popover

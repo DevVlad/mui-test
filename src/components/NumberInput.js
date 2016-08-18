@@ -67,6 +67,7 @@ class NumberInput extends PureComponent {
 					value={ this.state.value }
 					onBlur={ this.handleOnBlur.bind(this) }
 					onChange={ this.handleOnChange.bind(this) }
+					inputStyle={{ paddingLeft: '5px' }}
 				/>
 			</div>
 		);
