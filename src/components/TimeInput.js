@@ -141,8 +141,7 @@ class TimeInput extends PureComponent{
 						onChange={ this.handleTyping.bind(this) }
 						value={ this.state.toDisplay }
 						onKeyDown={this.handleOnKeyDown.bind(this)}
-						errorText={ errorText || warnText }
-						errorStyle={ {color: errorText ? colors.error : colors.warning} }
+						inputStyle={{ paddingLeft: '5px' }}
 				/>
 				{ getPluginIcons({
 					value,

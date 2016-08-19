@@ -205,6 +205,7 @@ class DateInput extends PureComponent {
 					value={ this.state.toDisplay }
 					onKeyDown={ this.handleOnKeyDown.bind(this) }
 					onChange={ this.handleOnChange.bind(this) }
+					inputStyle={{ paddingLeft: '5px' }}
 				/>
 				{ getPluginIcons({
 					value,

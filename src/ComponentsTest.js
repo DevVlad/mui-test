@@ -50,7 +50,7 @@ class ComponentsTest extends React.Component {
 
 	handleProvideErr = (errProvided) => {
 		if (errProvided) {
-			this.errorMsg = 'Error showroom.'
+			this.errorMsg = 'Invalid value, possible values should be numbers within 0 to 100.'
 		} else {
 			this.errorMsg = undefined;
 		}
@@ -94,6 +94,7 @@ class ComponentsTest extends React.Component {
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
 				/>
+				<br/>
 				<TextInput
 					label="Other"
 					value={this.props.other}
@@ -177,7 +178,7 @@ class ComponentsTest extends React.Component {
 				/>
 				<br/>
 				<CheckboxInput
-					label="Checkbox"
+					label="Checkbox for some fancy things"
 					value={ this.props.checkbox }
 					onChange={ this.props.setCheckbox }
 					errorText={ this.errorMsg }

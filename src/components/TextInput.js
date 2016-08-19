@@ -40,6 +40,7 @@ class TextInput extends PureComponent {
 				value={this.props.value}
 				onChange={this.handleChange}
 				onBlur={this.handleBlur}
+				inputStyle={{ paddingLeft: '5px' }}
 			/>
 		);
 	}
