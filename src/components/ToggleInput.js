@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import Toggle from 'material-ui/Toggle';
-import TextFieldUnderline from 'material-ui/TextField';
 
 import { transformProps } from './utils/material.js';
 import PureComponent from 'react-pure-render/component';
+import ErrorLabel from './ErrorLabel.js';
 
 class ToggleInput extends PureComponent{
 	static propTypes = {
@@ -21,36 +21,21 @@ class ToggleInput extends PureComponent{
 		labelPosition: "right"
 	};
 
-	handleError(notifications) {
-		if (notifications) {
-			return (
-				<TextFieldUnderline
-					id="ToggleInput_defaultAlias_UnderlineForNotify"
-					{ ...transformProps(TextFieldUnderline, notifications) }
-					style={ {
-						fontSize: 12,
-						transform: 'translate(46px, -20px)',
-						width: '0px',
-						height:'0px'
-					} }
-					disabled
-				/>
-			);
-		}
-	}
-
 	render() {
-		const { errorText, warnText, passText, ...restProps } = this.props;
+		const { value, label, labelPosition } = this.props;
 		return (
 			<div>
 				<Toggle
-					{...restProps}
-					{ ...transformProps(Toggle, restProps) }
-					value={this.props.value}
+					{ ...transformProps(Toggle, this.props) }
+					value={value}
+					label={label}
+					labelPosition={labelPosition}
 					onBlur={ () => this.props.onBlur(this.props.value) }
 					onToggle={ () => this.props.onChange(!this.props.value) }
 				/>
-				{ this.handleError({errorText, warnText, passText}) }
+				<ErrorLabel
+					{...transformProps(ErrorLabel, this.props)}
+				/>
 			</div>
 		);
 	}

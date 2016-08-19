@@ -114,7 +114,7 @@ class NumberInput extends PureComponent {
 			const calculated = this.tryCalculateString(value, getParsersFromString(value));
 			if (calculated && isTyping) {
 				this.props.onChange(calculated);
-			} else {
+			} else if (isTyping) {
 				this.props.onChange(transformToNumber(value, decimalParser));
 			}
 		}

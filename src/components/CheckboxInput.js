@@ -31,13 +31,13 @@ class CheckboxInput extends PureComponent{
 	};
 
 	render() {
-		const { errorText, warnText, passText, ...restProps } = this.props;
+		const { value, label } = this.props;
 		return (
 			<div>
 				<Checkbox
-					{ ...restProps }
-					{ ...transformProps(Checkbox, restProps) }
-					checked={this.props.value}
+					{ ...transformProps(Checkbox, this.props) }
+					checked={value}
+					label={label}
 					checkedIcon={ this.props.checkedIcon || <CheckedIconDefault /> }
 					uncheckedIcon={this.props.uncheckedIcon || <UncheckedIconDefault /> }
 					onClick={ this._handleClick }
