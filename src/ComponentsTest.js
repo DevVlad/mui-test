@@ -28,8 +28,6 @@ const DATA_STRINGS = DATA.map(e => e.name);
 
 const KONTAKT_FIELDS = 	['jmeno', 'prijmeni', 'email', 'mobil', 'tel'];
 
-const NOOP = () => {};
-
 const jmenoPrijmeni = e => [e.jmeno, e.prijmeni].join(' ').trim();
 const kontaktCondition = t => KONTAKT_FIELDS.map(f => ({ left: f, right: `${t}` }));
 const entityName = e => e.name;
@@ -75,13 +73,11 @@ class ComponentsTest extends React.Component {
 					label="Provide error msg"
 					value={ this.props.errorProvider }
 					onChange={ this.handleProvideErr }
-					onBlur={NOOP}
 				/>
 				<CheckboxInput
 					label="Provide warning msg"
 					value={ this.props.warnProvider }
 					onChange={ this.handleProvideWarn }
-					onBlur={NOOP}
 				/>
 				<TextInput
 					label="TextInput1"
@@ -176,7 +172,6 @@ class ComponentsTest extends React.Component {
 					label="Toggle"
 					value={ this.props.toggle }
 					onChange={ this.props.setToggle }
-					onBlur={NOOP}
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
 				/>
@@ -195,6 +190,7 @@ class ComponentsTest extends React.Component {
 					onChange={ this.props.setNumber }
 					errorText={ this.errorMsg }
 					warnText={ this.warningMsg }
+					locale="cs"
 				/>
 				{/*
 				<br/>

@@ -195,8 +195,6 @@ class DateInput extends PureComponent {
 	};
 
 	render() {
-		console.log('>>> DateInput', this.props.label);
-
 		const { enableMousePicker, value, errorText, warnText, passText } = this.props;
 
 		return (

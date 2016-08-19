@@ -50,8 +50,6 @@ class CheckboxInput extends PureComponent{
 	};
 
 	render() {
-		console.log('>>> CheckboxInput', this.props.label);
-
 		const { errorText, warnText, passText, ...restProps } = this.props;
 		return (
 			<div>

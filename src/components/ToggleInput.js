@@ -40,8 +40,6 @@ class ToggleInput extends PureComponent{
 	}
 
 	render() {
-		console.log('>>> ToggleInput', this.props.label);
-
 		const { errorText, warnText, passText, ...restProps } = this.props;
 		return (
 			<div>

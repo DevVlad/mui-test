@@ -69,8 +69,6 @@ class EntityInput extends PureComponent {
 
 
 	render() {
-		console.log('>>> EntityInput', this.props.label);
-
 		const { alias, entityType, value } = this.props;
 		const isValue = value !== undefined && value !== null;
 		const list = toJS(this.props.list);

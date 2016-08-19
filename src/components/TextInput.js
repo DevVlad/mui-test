@@ -33,8 +33,6 @@ class TextInput extends PureComponent {
 	}
 
 	render() {
-		console.log('>>> TextInput', this.props.label);
-
 		return (
 			<TextField
 			// <input type="text"
