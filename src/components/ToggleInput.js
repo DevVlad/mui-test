@@ -29,7 +29,7 @@ class ToggleInput extends PureComponent{
 			<div style={{...this.props.style}}>
 				<Toggle
 					{ ...transformProps(Toggle, this.props) }
-					value={value}
+					defaultToggled={value}
 					label={label}
 					labelPosition={labelPosition}
 					onBlur={ () => this.props.onBlur(this.props.value) }

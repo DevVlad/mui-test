@@ -150,18 +150,18 @@ class ComponentsTest extends React.Component {
 							// displayFormat="YYYY/MM/DD"
 						/>
 						<br/>
-						<ToggleInput
-							label="Toggle - 2. row"
-							value={ this.props.toggle }
-							onChange={ this.props.setToggle }
-							errorText={ this.errorMsg }
-							warnText={ this.warningMsg }
-						/>
-						<br/>
 						<CheckboxInput
 							label="Checkbox for some fancy things - 2. row"
 							value={ this.props.checkbox }
 							onChange={ this.props.setCheckbox }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<ToggleInput
+							label="Toggle - 2. row"
+							value={ this.props.toggle }
+							onChange={ this.props.setToggle }
 							errorText={ this.errorMsg }
 							warnText={ this.warningMsg }
 						/>
@@ -224,18 +224,18 @@ class ComponentsTest extends React.Component {
 							// displayFormat="YYYY/MM/DD"
 						/>
 						<br/>
-						<ToggleInput
-							label="Toggle - 3. row"
-							value={ this.props.toggle }
-							onChange={ this.props.setToggle }
-							errorText={ this.errorMsg }
-							warnText={ this.warningMsg }
-						/>
-						<br/>
 						<CheckboxInput
 							label="Checkbox for some fancy things - 3. row"
 							value={ this.props.checkbox }
 							onChange={ this.props.setCheckbox }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<ToggleInput
+							label="Toggle - 3. row"
+							value={ this.props.toggle }
+							onChange={ this.props.setToggle }
 							errorText={ this.errorMsg }
 							warnText={ this.warningMsg }
 						/>
