@@ -199,6 +199,7 @@ class DateInput extends PureComponent {
 
 		return (
 			<div>
+
 				<TextField
 					{ ...transformProps(TextField, this.props) }
 					onBlur={ this.handleOnBlur.bind(this) }

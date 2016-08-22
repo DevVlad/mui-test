@@ -48,9 +48,9 @@ class ComponentsTest extends React.Component {
 		}
 	}
 
-	handleProvideErr = (errProvided) => {
+	handleProvideError = (errProvided) => {
 		if (errProvided) {
-			this.errorMsg = 'Invalid value, possible values should be numbers within 0 to 100.'
+			this.errorMsg = this.props.longNtfProvider ? 'This is how it should look like in case of veeeeeerrrrryyyyy long error text' : 'Short error.';
 		} else {
 			this.errorMsg = undefined;
 		}
@@ -59,11 +59,20 @@ class ComponentsTest extends React.Component {
 
 	handleProvideWarn = (warnProvided) => {
 		if (warnProvided) {
-			this.warningMsg = 'Warning showroom.'
+			this.warningMsg = this.props.longNtfProvider ? 'This is how it should look like in case of veeeeeerrrrryyyyy long warning text' : 'Short warning.';
 		} else {
 			this.warningMsg = undefined;
 		}
 		this.props.setWarnProvider(warnProvided);
+	};
+
+	handleLongNtfProvider = (longNtfs) => {
+		if (this.props.warnProvider || this.props.errorProvider) {
+			window.alert(`First, you should unselect notification provider: ${this.props.errorProvider ? 'error' : 'warning'}`);
+		} else {
+			this.props.setLongNtfProvider(longNtfs);
+		}
+
 	};
 
 	render() {
@@ -72,12 +81,17 @@ class ComponentsTest extends React.Component {
 				<CheckboxInput
 					label="Provide error msg"
 					value={ this.props.errorProvider }
-					onChange={ this.handleProvideErr }
+					onChange={ this.handleProvideError }
 				/>
 				<CheckboxInput
 					label="Provide warning msg"
 					value={ this.props.warnProvider }
 					onChange={ this.handleProvideWarn }
+				/>
+				<CheckboxInput
+					label="Enable long notifications"
+					value={ this.props.longNtfProvider }
+					onChange={ this.handleLongNtfProvider }
 				/>
 				<TextInput
 					label="TextInput1"
@@ -229,5 +243,6 @@ export default connect(
 		'checkbox',
 		'errorProvider',
 		'warnProvider',
-		'number'
+		'number',
+		'longNtfProvider'
 ))(ComponentsTest);
