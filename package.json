@@ -6,11 +6,14 @@
     "react-scripts": "0.2.1"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
+    "flexboxgrid": "^6.3.1",
     "lodash": "^4.14.2",
     "material-ui": "^0.15.4",
     "moment": "^2.14.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
+    "react-flexbox-grid": "^0.10.2",
     "react-keydown": "^1.6.2",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",

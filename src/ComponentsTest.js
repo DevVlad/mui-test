@@ -14,6 +14,8 @@ import CheckboxInput from './components/CheckboxInput.js';
 import NumberInput from './components/NumberInput.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
+const { Grid, Row, Col } = require('react-flexbox-grid');
+
 const DATA = [
 	{ id: 0, name: 'monday' },
 	{ id: 1, name: 'tuesday' },
@@ -44,7 +46,7 @@ class ComponentsTest extends React.Component {
 	componentWillMount() {
 		if (this.state.defaultEntityId) {
 			this.props.setEntityId(107);
-			this.setState({ defaultEntityId: undefined});
+			this.setState({ defaultEntityId: undefined });
 		}
 	}
 
@@ -77,155 +79,179 @@ class ComponentsTest extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<CheckboxInput
-					label="Provide error msg"
-					value={ this.props.errorProvider }
-					onChange={ this.handleProvideError }
-				/>
-				<CheckboxInput
-					label="Provide warning msg"
-					value={ this.props.warnProvider }
-					onChange={ this.handleProvideWarn }
-				/>
-				<CheckboxInput
-					label="Enable long notifications"
-					value={ this.props.longNtfProvider }
-					onChange={ this.handleLongNtfProvider }
-				/>
-				<TextInput
-					label="TextInput1"
-					value={this.props.text}
-					onChange={this.props.setText}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<TextInput
-					label="TextInput2"
-					value={this.props.text}
-					onChange={this.props.setText}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<TextInput
-					label="Other"
-					value={this.props.other}
-					onChange={this.props.setOther}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<EntityInput
-					alias="a"
-					label="EntityInput"
-					entityType="kontakt"
-					entityToText={jmenoPrijmeni}
-					filterToCondition={kontaktCondition}
-					onChange={this.props.setEntityId}
-					value={this.props.entityId || this.defaultEntityId}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<EntityInput
-					alias="a"
-					label="EntityInput"
-					entityType="kontakt"
-					entityToText={jmenoPrijmeni}
-					filterToCondition={kontaktCondition}
-					onChange={this.props.setEntityId}
-					value={this.props.entityId || this.defaultEntityId}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<DropdownInput
-					label="Dropdown strings"
-					value={this.props.dropdown}
-					onChange={this.props.setDropdown}
-					data={DATA_STRINGS}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<DropdownInput
-					label="Dropdown objects"
-					value={this.props.dropdownId}
-					onChange={this.props.setDropdownId}
-					data={DATA}
-					entityToText={entityName}
-					entityToValue={entityId}
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<TimeInput
-					timeFormat={ 24 }
-					label="Time"
-					onChange={ this.props.setTime }
-					locale="cs"
-					value={ this.props.time }
-					enableMousePicker
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br />
-				<DateInput
-					label="Date"
-					onChange={ this.props.setDate }
-					value={ this.props.date }
-					enableMousePicker
-					locale="cs"
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-					// displayFormat="YYYY/MM/DD"
-				/>
-				<br/>
-				<ToggleInput
-					label="Toggle"
-					value={ this.props.toggle }
-					onChange={ this.props.setToggle }
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<CheckboxInput
-					label="Checkbox for some fancy things"
-					value={ this.props.checkbox }
-					onChange={ this.props.setCheckbox }
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-				/>
-				<br/>
-				<NumberInput
-					label="Number"
-					value={ this.props.number }
-					onChange={ this.props.setNumber }
-					errorText={ this.errorMsg }
-					warnText={ this.warningMsg }
-					locale="cs"
-				/>
-				{/*
-				<br/>
-				<DropdownInput
-					label="Dropdown objects 2"
-					value={this.props.dropdownId}
-					onChange={this.props.setDropdownId}
-					data={DATA}
-					entityToText={e => e.name}
-					entityToValue={e => e.id}
-				/>
-				<br/>
-				<AutoComplete
-					dataSource={DATA_STRINGS}
-					label="AutoComplete"
-					filter={() => true}
-				/>
-				<br/>
-				*/}
-			</div>
+			<Grid>
+				<Row>
+					<Col xs={6} md={3}>
+						<CheckboxInput
+							label="Provide error msg"
+							value={ this.props.errorProvider }
+							onChange={ this.handleProvideError }
+						/>
+						<CheckboxInput
+							label="Provide warning msg"
+							value={ this.props.warnProvider }
+							onChange={ this.handleProvideWarn }
+						/>
+						<CheckboxInput
+							label="Enable long notifications"
+							value={ this.props.longNtfProvider }
+							onChange={ this.handleLongNtfProvider }
+						/>
+					</Col>
+					<Col xs={6} md={3}>
+						<TextInput
+							label="TextInput - 2. row"
+							value={this.props.text}
+							onChange={this.props.setText}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br />
+						<DropdownInput
+							label="Dropdown strings - 2.row"
+							value={this.props.dropdown}
+							onChange={this.props.setDropdown}
+							data={DATA_STRINGS}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br />
+						<EntityInput
+							alias="a"
+							label="EntityInput - 2. row"
+							entityType="kontakt"
+							entityToText={jmenoPrijmeni}
+							filterToCondition={kontaktCondition}
+							onChange={this.props.setEntityId}
+							value={this.props.entityId || this.defaultEntityId}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br />
+						<TimeInput
+							timeFormat={ 24 }
+							label="Time - 2. row"
+							onChange={ this.props.setTime }
+							locale="cs"
+							value={ this.props.time }
+							enableMousePicker
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<DateInput
+							label="Date - 2. row"
+							onChange={ this.props.setDate }
+							value={ this.props.date }
+							enableMousePicker
+							locale="cs"
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+							// displayFormat="YYYY/MM/DD"
+						/>
+						<br/>
+						<ToggleInput
+							label="Toggle - 2. row"
+							value={ this.props.toggle }
+							onChange={ this.props.setToggle }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<CheckboxInput
+							label="Checkbox for some fancy things - 2. row"
+							value={ this.props.checkbox }
+							onChange={ this.props.setCheckbox }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<NumberInput
+							label="Number - 2. row"
+							value={ this.props.number }
+							onChange={ this.props.setNumber }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+							locale="cs"
+						/>
+					</Col>
+					<Col xs={6} md={3}>
+						<TextInput
+							label="TextInput - 3. row"
+							value={this.props.text}
+							onChange={this.props.setText}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<DropdownInput
+							label="Dropdown strings - 3.row"
+							value={this.props.dropdown}
+							onChange={this.props.setDropdown}
+							data={DATA_STRINGS}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<EntityInput
+							alias="a"
+							label="EntityInput - 3. row"
+							entityType="kontakt"
+							entityToText={jmenoPrijmeni}
+							filterToCondition={kontaktCondition}
+							onChange={this.props.setEntityId}
+							value={this.props.entityId || this.defaultEntityId}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<TimeInput
+							timeFormat={ 24 }
+							label="Time - 3. row"
+							onChange={ this.props.setTime }
+							locale="cs"
+							value={ this.props.time }
+							enableMousePicker
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<DateInput
+							label="Date - 3. row"
+							onChange={ this.props.setDate }
+							value={ this.props.date }
+							enableMousePicker
+							locale="cs"
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+							// displayFormat="YYYY/MM/DD"
+						/>
+						<br/>
+						<ToggleInput
+							label="Toggle - 3. row"
+							value={ this.props.toggle }
+							onChange={ this.props.setToggle }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<CheckboxInput
+							label="Checkbox for some fancy things - 3. row"
+							value={ this.props.checkbox }
+							onChange={ this.props.setCheckbox }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br/>
+						<NumberInput
+							label="Number - 3. row"
+							value={ this.props.number }
+							onChange={ this.props.setNumber }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+							locale="cs"
+						/>
+					</Col>
+				</Row>
+			</Grid>
+
 		);
 	}
 }
@@ -246,3 +272,135 @@ export default connect(
 		'number',
 		'longNtfProvider'
 ))(ComponentsTest);
+
+{/*}<div>
+	<CheckboxInput
+		label="Provide error msg"
+		value={ this.props.errorProvider }
+		onChange={ this.handleProvideError }
+	/>
+	<CheckboxInput
+		label="Provide warning msg"
+		value={ this.props.warnProvider }
+		onChange={ this.handleProvideWarn }
+	/>
+	<CheckboxInput
+		label="Enable long notifications"
+		value={ this.props.longNtfProvider }
+		onChange={ this.handleLongNtfProvider }
+	/>
+	<TextInput
+		label="TextInput1"
+		value={this.props.text}
+		onChange={this.props.setText}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<TextInput
+		label="TextInput2"
+		value={this.props.text}
+		onChange={this.props.setText}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<TextInput
+		label="Other"
+		value={this.props.other}
+		onChange={this.props.setOther}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<EntityInput
+		alias="a"
+		label="EntityInput"
+		entityType="kontakt"
+		entityToText={jmenoPrijmeni}
+		filterToCondition={kontaktCondition}
+		onChange={this.props.setEntityId}
+		value={this.props.entityId || this.defaultEntityId}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<EntityInput
+		alias="a"
+		label="EntityInput"
+		entityType="kontakt"
+		entityToText={jmenoPrijmeni}
+		filterToCondition={kontaktCondition}
+		onChange={this.props.setEntityId}
+		value={this.props.entityId || this.defaultEntityId}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<DropdownInput
+		label="Dropdown strings"
+		value={this.props.dropdown}
+		onChange={this.props.setDropdown}
+		data={DATA_STRINGS}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<DropdownInput
+		label="Dropdown objects"
+		value={this.props.dropdownId}
+		onChange={this.props.setDropdownId}
+		data={DATA}
+		entityToText={entityName}
+		entityToValue={entityId}
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<TimeInput
+		timeFormat={ 24 }
+		label="Time"
+		onChange={ this.props.setTime }
+		locale="cs"
+		value={ this.props.time }
+		enableMousePicker
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br />
+	<DateInput
+		label="Date"
+		onChange={ this.props.setDate }
+		value={ this.props.date }
+		enableMousePicker
+		locale="cs"
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+		// displayFormat="YYYY/MM/DD"
+	/>
+	<br/>
+	<ToggleInput
+		label="Toggle"
+		value={ this.props.toggle }
+		onChange={ this.props.setToggle }
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<CheckboxInput
+		label="Checkbox for some fancy things"
+		value={ this.props.checkbox }
+		onChange={ this.props.setCheckbox }
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+	/>
+	<br/>
+	<NumberInput
+		label="Number"
+		value={ this.props.number }
+		onChange={ this.props.setNumber }
+		errorText={ this.errorMsg }
+		warnText={ this.warningMsg }
+		locale="cs"
+	/>
+</div>*/}
