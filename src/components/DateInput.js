@@ -196,7 +196,6 @@ class DateInput extends PureComponent {
 
 	render() {
 		const { enableMousePicker, value, errorText, warnText, passText } = this.props;
-
 		return (
 			<div>
 

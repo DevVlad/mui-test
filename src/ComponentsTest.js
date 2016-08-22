@@ -12,6 +12,7 @@ import DateInput from './components/DateInput.js';
 import ToggleInput from './components/ToggleInput.js';
 import CheckboxInput from './components/CheckboxInput.js';
 import NumberInput from './components/NumberInput.js';
+import TextareaInput from './components/TextareaInput.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
 const { Grid, Row, Col } = require('react-flexbox-grid');
@@ -80,8 +81,8 @@ class ComponentsTest extends React.Component {
 	render() {
 		return (
 			<Grid>
-				<Row>
-					<Col xs={6} md={3}>
+				<Row between="xs">
+					<Col xs={3} md={3}>
 						<CheckboxInput
 							label="Provide error msg"
 							value={ this.props.errorProvider }
@@ -98,20 +99,28 @@ class ComponentsTest extends React.Component {
 							onChange={ this.handleLongNtfProvider }
 						/>
 					</Col>
-					<Col xs={6} md={3}>
+					<Col xs={3} md={3}>
 						<TextInput
 							label="TextInput - 2. row"
-							value={this.props.text}
-							onChange={this.props.setText}
+							value={ this.props.text }
+							onChange={ this.props.setText }
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br />
+						<TextareaInput
+							label="Textarea - 2. row"
+							value={ this.props.textarea }
+							onChange={ this.props.setTextarea }
 							errorText={ this.errorMsg }
 							warnText={ this.warningMsg }
 						/>
 						<br />
 						<DropdownInput
 							label="Dropdown strings - 2.row"
-							value={this.props.dropdown}
-							onChange={this.props.setDropdown}
-							data={DATA_STRINGS}
+							value={ this.props.dropdown }
+							onChange={ this.props.setDropdown }
+							data={ DATA_STRINGS }
 							errorText={ this.errorMsg }
 							warnText={ this.warningMsg }
 						/>
@@ -175,11 +184,19 @@ class ComponentsTest extends React.Component {
 							locale="cs"
 						/>
 					</Col>
-					<Col xs={6} md={3}>
+					<Col xs={3} md={3}>
 						<TextInput
 							label="TextInput - 3. row"
 							value={this.props.text}
 							onChange={this.props.setText}
+							errorText={ this.errorMsg }
+							warnText={ this.warningMsg }
+						/>
+						<br />
+						<TextareaInput
+							label="Textarea - 3. row"
+							value={ this.props.textarea }
+							onChange={ this.props.setTextarea }
 							errorText={ this.errorMsg }
 							warnText={ this.warningMsg }
 						/>
@@ -270,7 +287,8 @@ export default connect(
 		'errorProvider',
 		'warnProvider',
 		'number',
-		'longNtfProvider'
+		'longNtfProvider',
+		'textarea'
 ))(ComponentsTest);
 
 {/*}<div>
