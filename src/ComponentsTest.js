@@ -15,7 +15,8 @@ import NumberInput from './components/NumberInput.js';
 import TextareaInput from './components/TextareaInput.js';
 // import AutoComplete from 'material-ui/AutoComplete';
 
-const { Grid, Row, Col } = require('react-flexbox-grid');
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import { wrap } from './wrap.js';
 
 const DATA = [
 	{ id: 0, name: 'monday' },
@@ -36,10 +37,35 @@ const kontaktCondition = t => KONTAKT_FIELDS.map(f => ({ left: f, right: `${t}` 
 const entityName = e => e.name;
 const entityId = e => e.id;
 
+import Immutable from 'immutable';
+
+const dictionary = Immutable.fromJS({
+	nazev: 'name',
+	castka: 'amount',
+	manzelky: 'wives',
+	prijmeni: 'surname',
+	prvni: 'first',
+	druha: 'second',
+	deti: 'children',
+	osoba: 'person'
+});
 
 class ComponentsTest extends React.Component {
 
 	constructor() {
+		wrap({
+			id: 123,
+			nazev: 'aaa',
+			castka: 100.00,
+			manzelky: {
+				prvni: {
+					deti: ['Pavel', 'Petr'],
+					osoba: 'Karolina'
+				},
+				druha: 'Adela'
+			},
+			prijmeni: 'Nevim'
+		}, dictionary);
 		super();
 		this.state = { defaultEntityId: 107 };
 	}
