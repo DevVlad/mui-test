@@ -19,7 +19,8 @@ class TextareaInput extends PureComponent {
 	static defaultProps = {
 		onChange: () => {},
 		onBlur: () => {},
-		rowsMax: 5
+		rowsMax: 5,
+		multiLine: true
 	};
 
 	constructor() {
@@ -44,8 +45,6 @@ class TextareaInput extends PureComponent {
 						{ ...restProps }
 						{ ...transformProps(TextField, this.props) }
 						onBlur={ this.handleBlur }
-						value={ this.props.value }
-						multiLine={ true }
 						onChange={ this.handleChange }
 					/>
 			</div>
