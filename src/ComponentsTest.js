@@ -39,17 +39,6 @@ const entityId = e => e.id;
 
 import Immutable from 'immutable';
 
-const dictionary = Immutable.fromJS({
-	nazev: 'name',
-	castka: 'amount',
-	manzelky: 'wives',
-	prijmeni: 'surname',
-	prvni: 'first',
-	druha: 'second',
-	deti: 'children',
-	osoba: 'person'
-});
-
 class ComponentsTest extends React.Component {
 
 	constructor() {
@@ -62,14 +51,19 @@ class ComponentsTest extends React.Component {
 			this.props.setEntityId(107);
 			this.setState({ defaultEntityId: undefined });
 		}
-		const x = wrap({
+		//showroom of wrap function
+		const ent = {
 			id: 123,
 			nazev: 'aaa',
 			castka: 100.00,
 			manzelky: {
 				prvni: {
 					deti: ['Pavel', 'Petr'],
-					osoba: 'Karolina'
+					osoba: 'Karolina',
+					prarodice: {
+						deda: 'v pohode',
+						babicka: 'cajk'
+					}
 				},
 				druha: {
 					deti: ['alena', 'lojzik'],
@@ -77,8 +71,22 @@ class ComponentsTest extends React.Component {
 				},
 			},
 			prijmeni: 'Nevim'
-		}, dictionary);
-		console.log(x);
+		};
+		const dictionary = Immutable.Map({
+			nazev: 'name',
+			castka: 'amount',
+			manzelky: 'wives',
+			prijmeni: 'surname',
+			prvni: 'first',
+			druha: 'second',
+			deti: 'children',
+			osoba: 'person',
+			prarodice: 'grandparents',
+			deda: 'grandfather',
+			babicka: 'grandmother'
+		});
+		const wrappedEntity = wrap(ent, dictionary);
+		console.log(ent, wrappedEntity);
 	}
 
 	handleProvideError = (errProvided) => {
