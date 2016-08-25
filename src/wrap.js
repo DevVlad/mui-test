@@ -1,37 +1,18 @@
-import Immutable from 'immutable';
+import { flatten, unflatten } from 'flat';
 
-export const wrap = (entity, dictionary, nestedKeys = [], wrapedEntity = Immutable.fromJS({})) => {
-	const iEntity = Immutable.fromJS(entity);
-	let nestingKeys = nestedKeys.slice(0);
-	let outputEntity = Immutable.fromJS({});
-	Object.keys(entity).forEach( key => {
-		if (!Immutable.Iterable.isKeyed(iEntity.get(key))) {
-			outputEntity = outputEntity.set(translateKey(key, dictionary), iEntity.get(key));
-		} else {
-			nestingKeys.push(key);
-			outputEntity = outputEntity.set(translateKey(key, dictionary));
-		}
-	});
-	wrapedEntity = saveToWrapedEntity(outputEntity, nestedKeys, wrapedEntity);
-	if (!Immutable.fromJS(nestedKeys).equals(Immutable.fromJS(nestingKeys))) {
-		const nestingKey = nestingKeys[nestingKeys.length - 1];
-		const translatedNestedKey = translateKey(nestingKey, dictionary);
-		const translatedNestingKeys = nestingKeys.map(key => translateKey(key, dictionary));
-		if (entity[nestingKey]) {
-			wrap(entity[nestingKey], dictionary, translatedNestingKeys, wrapedEntity);
-		}
-	} else {
-		console.log(wrapedEntity.toJS());
-		return wrapedEntity.toJS();
-	}
+const translate = (key, dictionary) => {
+		return dictionary.get(key) || key;
 };
 
-const translateKey = (key, dictionary) => dictionary.get(key) || key;
-
-const saveToWrapedEntity = (entity, nestedKeys, wrapedEntity) => {
-	if (nestedKeys && nestedKeys.length > 0) {
-		return wrapedEntity.setIn(nestedKeys, entity);
-	} else {
-		return entity;
-	}
+export const wrap = (entity, dictionary) => {
+	const flatEntity = flatten(entity);
+	const keysOfFlatEntity = Object.keys(flatEntity);
+	const translatedKeys = keysOfFlatEntity.map(key => {
+		return key.split('.').map(keyToTranslate => translate(keyToTranslate, dictionary)).join('.');
+	});
+	let outputEntity = {};
+	translatedKeys.forEach((translatedKey, index) => {
+		outputEntity[translatedKey] = flatEntity[keysOfFlatEntity[index]];
+	});
+	return unflatten(outputEntity);
 };

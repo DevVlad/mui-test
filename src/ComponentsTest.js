@@ -53,19 +53,6 @@ const dictionary = Immutable.fromJS({
 class ComponentsTest extends React.Component {
 
 	constructor() {
-		wrap({
-			id: 123,
-			nazev: 'aaa',
-			castka: 100.00,
-			manzelky: {
-				prvni: {
-					deti: ['Pavel', 'Petr'],
-					osoba: 'Karolina'
-				},
-				druha: 'Adela'
-			},
-			prijmeni: 'Nevim'
-		}, dictionary);
 		super();
 		this.state = { defaultEntityId: 107 };
 	}
@@ -75,6 +62,23 @@ class ComponentsTest extends React.Component {
 			this.props.setEntityId(107);
 			this.setState({ defaultEntityId: undefined });
 		}
+		const x = wrap({
+			id: 123,
+			nazev: 'aaa',
+			castka: 100.00,
+			manzelky: {
+				prvni: {
+					deti: ['Pavel', 'Petr'],
+					osoba: 'Karolina'
+				},
+				druha: {
+					deti: ['alena', 'lojzik'],
+					osoba: 'Jana'
+				},
+			},
+			prijmeni: 'Nevim'
+		}, dictionary);
+		console.log(x);
 	}
 
 	handleProvideError = (errProvided) => {
