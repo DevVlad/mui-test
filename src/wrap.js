@@ -7,25 +7,62 @@ const translate = (key, dictionary) => {
 
 export const wrap = (entity, dictionary) => {
 	const dict = Immutable.Map(dictionary).flip();
+	const knownProxy = proxyMemory(entity);
 
-	let wrapEnt = (entity) => {
-		return new Proxy(entity, {
-			get(entity, prop) {
-				let result = entity[translate(prop, dict)];
-				if (typeof result === 'object') {
-					result = wrapEnt(result);
+	if (!knownProxy) {
+		const wrapEnt = (entity) => {
+			return new Proxy(entity, {
+				get(entity, prop) {
+					let result = entity[translate(prop, dict)];
+					if (typeof result === 'object') {
+						result = wrapEnt(result);
+					}
+					return result;
+				},
+				set(entity, prop, val) {
+					entity[translate(prop, dict)] = typeof val === 'object' ? wrapEnt(val) : val;
+					return true;
 				}
-				return result;
-			},
-			set(entity, prop, val) {
-				entity[translate(prop, dict)] = typeof val === 'object' ? wrapEnt(val) : val;
-				return true;
-			}
-		});
-	};
-
-	return wrapEnt(entity);
+			});
+		};
+		const newProxy = wrapEnt(entity);
+		proxyMemory(entity, true, newProxy);
+		return newProxy;
+	} else {
+		return knownProxy;
+	}
 };
+
+let knownProxies = {};
+const proxyMemory = (entity, newRecord, newProxy) => {
+	if (!newRecord) {
+		return knownProxies[entity.id] || undefined;
+	} else {
+		knownProxies[entity.id] = newProxy;
+	}
+};
+
+// export const wrap = (entity, dictionary) => {
+// 	const dict = Immutable.Map(dictionary).flip();
+//
+// 	const wrapEnt = (entity) => {
+// 		return new Proxy(entity, {
+// 			get(entity, prop) {
+// 				let result = entity[translate(prop, dict)];
+// 				if (typeof result === 'object') {
+// 					result = wrapEnt(result);
+// 				}
+// 				return result;
+// 			},
+// 			set(entity, prop, val) {
+// 				entity[translate(prop, dict)] = typeof val === 'object' ? wrapEnt(val) : val;
+// 				return true;
+// 			}
+// 		});
+// 	};
+//
+// 	return wrapEnt(entity);
+// };
 
 export const translateEntity = (entity, dictionary) => {
 	const flatEntity = flatten(entity);

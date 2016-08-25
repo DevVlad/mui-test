@@ -72,7 +72,7 @@ class ComponentsTest extends React.Component {
 			},
 			prijmeni: 'Nevim'
 		};
-		const dictionary = Immutable.Map({
+		const dictionary = {
 			nazev: 'name',
 			castka: 'amount',
 			manzelky: 'wives',
@@ -83,10 +83,15 @@ class ComponentsTest extends React.Component {
 			osoba: 'person',
 			prarodice: 'grandparents',
 			deda: 'grandfather',
-			babicka: 'grandmother'
-		});
-		const wrappedEntity = wrap(ent, dictionary);
-		console.log(ent, wrappedEntity);
+			babicka: 'grandmother',
+			jmeno: 'firstname'
+		};
+		let wrappedEntity = wrap(ent, dictionary);
+		console.log('input: ', ent, 'output: ', wrappedEntity);
+		wrappedEntity.wives.first.person = {jmeno: 'Petrozela'};
+		console.log(wrappedEntity.wives.first.person.firstname, ent.manzelky.prvni.osoba.jmeno);
+		let wrappedEntity2 = wrap(ent, dictionary);
+		console.log(wrappedEntity2);
 	}
 
 	handleProvideError = (errProvided) => {
