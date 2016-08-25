@@ -101,7 +101,6 @@ export const translateEntity = (entity, dictionary) => {
 //translation
 // const flatEntity = flatten(entity);
 // const keysOfFlatEntity = Object.keys(flatEntity);
-// console.log(flatEntity);
 // const translatedKeys = keysOfFlatEntity.map(key => {
 // 	return key.split('.').map(keyToTranslate => translate(keyToTranslate, dictionary)).join('.');
 // });
