@@ -128,9 +128,9 @@ class NumberInput extends PureComponent {
 	}
 
 	tryCalculateString = (string, usedParsersInStrings) => {
-		const foundParsers = findMatchesInArray(usedParsersInStrings, MATH_OPERATORS);
+		const foundMathParsers = findMatchesInArray(usedParsersInStrings, MATH_OPERATORS);
 		const floatsInString = string
-			.split(new RegExp(`[${foundParsers.join(',')}]`))
+			.split(new RegExp(`[${foundMathParsers.join(',')}]`))
 			.map(x => x.trim());
 		const numbersFromFloatsInString = floatsInString.map(float => transformToNumber(float, this.state.decimalParser));
 		let newString = string;
