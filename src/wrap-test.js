@@ -76,4 +76,15 @@ describe('wrap(entity, dictionary) function', () => {
 		expect(f.object.address).toEqual(e.object.adresa);
 	});
 
+	it('unknown record in dictionary', () => {
+		f.object = {
+			firstname: 'Lojza',
+			surname: 'Prihradka',
+			address: 'Za Malym Splavem, 6',
+			stav: 'nezadany'
+		};
+		expect(f.object.stav).toEqual(e.object.stav);
+	});
+
+
 });
