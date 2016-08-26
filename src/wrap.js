@@ -5,6 +5,15 @@ const translate = (key, dictionary) => {
 		return dictionary.get(key) || key;
 };
 
+let knownProxies = {};
+const proxyMemory = (entity, newRecord, newProxy) => {
+	if (!newRecord) {
+		return knownProxies[entity.id] || undefined;
+	} else {
+		knownProxies[entity.id] = newProxy;
+	}
+};
+
 export const wrap = (entity, dictionary) => {
 	const dict = Immutable.Map(dictionary).flip();
 	const knownProxy = proxyMemory(entity);
@@ -30,15 +39,6 @@ export const wrap = (entity, dictionary) => {
 		return newProxy;
 	} else {
 		return knownProxy;
-	}
-};
-
-let knownProxies = {};
-const proxyMemory = (entity, newRecord, newProxy) => {
-	if (!newRecord) {
-		return knownProxies[entity.id] || undefined;
-	} else {
-		knownProxies[entity.id] = newProxy;
 	}
 };
 

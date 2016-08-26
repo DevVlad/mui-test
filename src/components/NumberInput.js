@@ -129,10 +129,19 @@ class NumberInput extends PureComponent {
 
 	tryCalculateString = (string, usedParsersInStrings) => {
 		const foundParsers = findMatchesInArray(usedParsersInStrings, MATH_OPERATORS);
+		const floatsInString = string
+			.split(new RegExp(`[${foundParsers.join(',')}]`))
+			.map(x => x.trim());
+		const numbersFromFloatsInString = floatsInString.map(float => transformToNumber(float, this.state.decimalParser));
+		let newString = string;
+		floatsInString.forEach( (fis, index) => {
+			newString = newString.replace(fis, numbersFromFloatsInString[index]);
+		});
+		console.log(newString);
 		try {
-			return eval(string);
+			return eval(newString);
 		} catch (e) {
-			// TODO: calculate input
+			console.log('tryCalculateString: ', e);
 			return undefined;
 		}
 	}
