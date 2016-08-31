@@ -2,20 +2,25 @@ import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import { transformProps } from './utils/material.js';
 import PureComponent from 'react-pure-render/component';
+import stylePropType from 'react-style-proptype';
 
-class TextInput extends PureComponent {
+class TextareaInput extends PureComponent {
 	static propTypes = {
 		label: PropTypes.string,
-		value: PropTypes.string,
-		disabled: PropTypes.bool,
 		errorText: PropTypes.string,
+		warnText: PropTypes.string,
+		onBlur: PropTypes.func,
 		onChange: PropTypes.func,
-		onBlur: PropTypes.func
+		value: PropTypes.string,
+		textareaStyle: stylePropType,
+		rowsMax: PropTypes.number
 	};
 
 	static defaultProps = {
 		onChange: () => {},
 		onBlur: () => {},
+		rowsMax: 5,
+		multiLine: true
 	};
 
 	constructor() {
@@ -33,17 +38,19 @@ class TextInput extends PureComponent {
 	}
 
 	render() {
+		const { label, errorText, warnText, passText, ...restProps } = this.props;
 		return (
-			<TextField
-			// <input type="text"
-				{ ...transformProps(TextField, this.props) }
-				value={this.props.value}
-				onChange={this.handleChange}
-				onBlur={this.handleBlur}
-				inputStyle={{ paddingLeft: '5px' }}
-			/>
+			<div>
+					<TextField
+						{ ...restProps }
+						{ ...transformProps(TextField, this.props) }
+						onBlur={ this.handleBlur }
+						onChange={ this.handleChange }
+					/>
+			</div>
 		);
 	}
-}
 
-export default TextInput;
+};
+
+export default TextareaInput;

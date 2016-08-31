@@ -3,7 +3,7 @@ import Checkbox from 'material-ui/Checkbox';
 import UncheckedIconDefault from 'material-ui/svg-icons/toggle/check-box-outline-blank';
 import CheckedIconDefault from 'material-ui/svg-icons/toggle/check-box';
 import PureComponent from 'react-pure-render/component';
-
+import stylePropType from 'react-style-proptype';
 import { transformProps } from './utils/material.js';
 import ErrorLabel from './ErrorLabel.js';
 
@@ -17,13 +17,15 @@ class CheckboxInput extends PureComponent{
 		value: PropTypes.bool,
 		errorText: PropTypes.string,
 		warnText: PropTypes.string,
+		style: stylePropType
 	};
 
 	static defaultProps = {
 		onChange: () => {},
 		onBlur: () => {},
 		value: false,
-		labelPosition: "right"
+		labelPosition: "right",
+		style: { width: '256px' }
 	};
 
 	_handleClick = () => {
@@ -31,15 +33,13 @@ class CheckboxInput extends PureComponent{
 	};
 
 	render() {
-		console.log('>>> CheckboxInput', this.props.label);
-
-		const { errorText, warnText, passText, ...restProps } = this.props;
+		const { value, label } = this.props;
 		return (
-			<div>
+			<div style={{...this.props.style}}>
 				<Checkbox
-					{ ...restProps }
-					{ ...transformProps(Checkbox, restProps) }
-					checked={this.props.value}
+					{ ...transformProps(Checkbox, this.props) }
+					checked={value}
+					label={label}
 					checkedIcon={ this.props.checkedIcon || <CheckedIconDefault /> }
 					uncheckedIcon={this.props.uncheckedIcon || <UncheckedIconDefault /> }
 					onClick={ this._handleClick }

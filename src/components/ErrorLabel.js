@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
+import stylePropType from 'react-style-proptype';
 
 class ErrorLabel extends PureComponent {
 	static propTypes = {
 		errorText: PropTypes.string,
-		errorStyle: PropTypes.style
+		// errorStyle: PropTypes.style
+		errorStyle: stylePropType
 	};
 
 	render() {

@@ -130,8 +130,6 @@ class TimeInput extends PureComponent{
 	};
 
 	render() {
-		console.log('>>> TimeInput', this.props.label);
-
 		const { errorText, warnText, passText, enableMousePicker, value } = this.props;
 
 		return (

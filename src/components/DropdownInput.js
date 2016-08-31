@@ -115,8 +115,6 @@ class DropdownInput extends PureComponent {
 	};
 
 	render() {
-		console.log('>>> DropdownInput', this.props.label);
-
 		let searchText = this.state.searchText;
 		const isValue = this.props.value !== undefined && this.props.value !== null;
 		const isTyping = searchText !== undefined;
