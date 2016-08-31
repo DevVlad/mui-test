@@ -7,14 +7,12 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "flat": "^2.0.1",
     "flexboxgrid": "^6.3.1",
     "lodash": "^4.14.2",
     "material-ui": "^0.15.4",
     "moment": "^2.14.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "react-flexbox-grid": "^0.10.2",
     "react-keydown": "^1.6.2",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
@@ -23,6 +21,7 @@
     "redux": "^3.5.2",
     "redux-immutable": "^3.0.7",
     "redux-thunk": "^2.1.0",
+    "reflexbox": "^2.1.0",
     "reselect": "^2.5.3",
     "superagent": "^2.1.0"
   },

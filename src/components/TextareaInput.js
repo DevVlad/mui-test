@@ -46,6 +46,7 @@ class TextareaInput extends PureComponent {
 						{ ...transformProps(TextField, this.props) }
 						onBlur={ this.handleBlur }
 						onChange={ this.handleChange }
+						inputStyle={{ paddingLeft: '5px' }}
 					/>
 			</div>
 		);
