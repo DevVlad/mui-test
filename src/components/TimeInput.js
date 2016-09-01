@@ -142,14 +142,14 @@ class TimeInput extends PureComponent{
 						value={ this.state.toDisplay }
 						onKeyDown={this.handleOnKeyDown.bind(this)}
 						inputStyle={{ paddingLeft: '5px' }}
+						afterInput={
+							getPluginIcons({
+									value,
+									isTyping: this.state.typing,
+									enableMousePicker},
+								[ this.timeIconPlugin, this.clearIconPlugin ])
+						}
 				/>
-				{ getPluginIcons({
-					value,
-					isTyping: this.state.typing,
-					enableMousePicker,
-					notifications: errorText || warnText || passText},
-					[ this.timeIconPlugin, this.clearIconPlugin ])
-				}
 				<TimePickerDialog
 					ref="timePicker"
 					format={ this.props.timeFormat === 'ampm' ? 'ampm' : '24hr' }

@@ -149,18 +149,19 @@ class DropdownInput extends PureComponent {
 					onMenuToggle={this.props.onMenuToggle}
 					filter={filter}
 					animated={false}
+					afterInput={
+						getPluginIcons({
+							searchText,
+							isValue,
+							isTyping,
+							onClick: (innerOnClick) => {
+								clearTimeout(this.blurTimeout);
+								innerOnClick();
+								this.focus();
+							}
+						}, plugins)
+					}
 				/>
-			{ getPluginIcons({
-				searchText,
-				isValue,
-				isTyping,
-				onClick: (innerOnClick) => {
-					clearTimeout(this.blurTimeout);
-					innerOnClick();
-					this.focus();
-				},
-				notifications: errorText || warnText || passText
-				}, plugins) }
 			</span>
 		);
 	}

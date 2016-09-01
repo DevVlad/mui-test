@@ -1,22 +1,15 @@
+import React from 'react';
+
 const getPluginIcons = (variables, plugins) => {
 	let icons = [];
 	let index = 0;
 	plugins.forEach(plugin => {
-		let ntfHelper = 0;
-		if (variables.notifications) {
-				if (variables.notifications.length < 44) {
-					ntfHelper = -35;
-				} else {
-					ntfHelper = -47;
-				}
-		}
-		// TODO: consult with Martin about width calc over next param
 		const pluginIcon = plugin({
 			...variables,
 			// style: { transform: `translate(${-40 * index - 20}px, 5px)` }
 			style: {
-				transform: `translate(${-40 * index - 20}px, ${ variables.notifications ? `${ntfHelper}px` : '5px'})`,
-				transitionDuration: '0ms',
+			// 	transform: `translate(${-40 * index - 20}px, ${ variables.notifications ? '-35px' : '5px'})`,
+			// 	transitionDuration: '0ms'
 			}
 		});
 		if (pluginIcon) {
@@ -24,7 +17,14 @@ const getPluginIcons = (variables, plugins) => {
 			index++;
 		}
 	});
-	return icons;
+	return (
+		<div style={{
+				float: 'right',
+				position: 'relative',
+				top: '-45px'}}>
+			{icons.reverse()}
+		</div>
+	);
 };
 
 export default getPluginIcons;

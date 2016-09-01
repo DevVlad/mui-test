@@ -206,14 +206,14 @@ class DateInput extends PureComponent {
 					onKeyDown={ this.handleOnKeyDown.bind(this) }
 					onChange={ this.handleOnChange.bind(this) }
 					inputStyle={{ paddingLeft: '5px' }}
+					afterInput={
+						getPluginIcons({
+							value,
+							isTyping: this.state.typing,
+							enableMousePicker},
+						[ this.dateIconPlugin, this.clearIconPlugin ])
+					}
 				/>
-				{ getPluginIcons({
-					value,
-					isTyping: this.state.typing,
-					enableMousePicker,
-					notifications: errorText || warnText || passText},
-					[ this.dateIconPlugin, this.clearIconPlugin ])
-				}
 				<DatePickerDialog
 					ref='datePicker'
 					firstDayOfWeek={ 1 }
