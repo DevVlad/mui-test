@@ -147,14 +147,23 @@ class DateInput extends PureComponent {
 
 	handleOnBlur(e) {
 		const elem = e.target.value;
-		if (elem) {
+        const validInput = !/[a-z]+/.test(elem);
+
+		if (elem && validInput) {
 			// const newDate = parseDate(['D', 'M', 'Y'], elem);
 			const newDate = parseDate(getDateParts(this.props.locale), elem);
-			if (this.formatDate(newDate) !== this.formatDate(this.props.value)) this.props.onChange(newDate);
+			this.props.onChange(newDate);
 		} else {
-			if (this.props.value) this.props.onChange(undefined);
+			if (this.props.value) {
+                this.props.onChange(undefined);
+            }
 		}
-		if (this.state.typing) this.setState({typing: false});
+		if (this.state.typing) {
+            this.setState({
+                typing: false,
+                toDisplay: !validInput ? '' : elem
+            });
+        }
 	}
 
 	handleOnChangeOfDatePicker(date) {
