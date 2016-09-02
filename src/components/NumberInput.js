@@ -99,24 +99,23 @@ class NumberInput extends PureComponent {
 
 	handleOnBlur() {
 		const { value, decimalParser, isTyping } = this.state;
-				const validInput = !/[a-z]+/.test(value);
 
-				if (validInput) {
-					if (value !== 0) {
-					const calculated = this.tryCalculateString(value, getParsersFromString(value));
-					if (calculated && isTyping) {
-						this.props.onChange(calculated);
-					} else if (isTyping) {
-						const transNumb = transformToNumber(value, decimalParser);
-						this.props.onChange(transNumb)
-					}
+		if (!/[a-z]+/i.test(value)) {
+			if (value !== 0) {
+				const calculated = this.tryCalculateString(value, getParsersFromString(value));
+				if (calculated && isTyping) {
+					this.props.onChange(calculated);
+				} else if (isTyping) {
+					const transNumb = transformToNumber(value, decimalParser);
+					this.props.onChange(transNumb)
 				}
-				} else {
-						this.props.value ? this.props.onChange(undefined) : this.setState({
-							value: '',
-							typing: undefined
-						});
-				}
+			}
+		} else {
+			this.props.value ? this.props.onChange(undefined) : this.setState({
+				value: '',
+				typing: undefined
+			});
+		}
 	}
 
 	handleOnChange(e) {
