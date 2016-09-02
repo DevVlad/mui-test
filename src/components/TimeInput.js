@@ -36,7 +36,6 @@ class TimeInput extends PureComponent{
 	}
 
 	componentWillReceiveProps(newProps) {
-		console.log('newProps', newProps.value);
 		if (!newProps.value) {
 			this.setState({
 				toDisplay: '',

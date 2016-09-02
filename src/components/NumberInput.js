@@ -1,20 +1,7 @@
 import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
-
 import { transformProps } from './utils/material.js';
 import PureComponent from 'react-pure-render/component';
-
-const MATH_OPERATORS = ['*', '+', '/', '-'];
-
-const findMatchesInArray = (array, searched) => {
-	let match = [];
-	array.forEach( (elem, index) => {
-		const re = new RegExp(`[\\${elem}]`);
-		const founded = re.test(searched.toString());
-		if (founded && match.indexOf(elem) === -1) match.push(elem);
-	});
-	return match;
-};
 
 //searching for original parser in string - if non return undefined
 const getUniqueElemFromArray = (array) => {
@@ -47,7 +34,9 @@ const transformToNumber = (string, decimalParser) => {
 		const parser = usedParsersInStrings[0];
 		if (parser !== decimalParser) {
 			output = string.split(parser).join((parser === '.' || parser === ',') ? '.' : '');
-		} else output = string.split(parser).join('.');
+		} else {
+			output = string.split(parser).join('.');
+		}
 	} else if (usedParsersInStrings.length > 1) {
 		// more than 1 parser in string
 		let localOutput = string;
@@ -110,25 +99,25 @@ class NumberInput extends PureComponent {
 
 	handleOnBlur() {
 		const { value, decimalParser, isTyping } = this.state;
-        const validInput = !/[a-z]+/.test(value);
+				const validInput = !/[a-z]+/.test(value);
 
-        if (validInput) {
-            if (value !== 0) {
-    			const calculated = this.tryCalculateString(value, getParsersFromString(value));
-    			if (calculated && isTyping) {
-    				this.props.onChange(calculated);
-    			} else if (isTyping) {
-                    const transNumb = transformToNumber(value, decimalParser);
-    				this.props.onChange(transNumb)
-    			}
-    		}
-        } else {
-            this.props.value ? this.props.onChange(undefined) : this.setState({
-                value: '',
-                typing: undefined
-            });
-        }
-
+				if (validInput) {
+					if (value !== 0) {
+					const calculated = this.tryCalculateString(value, getParsersFromString(value));
+					console.log(value, calculated);
+					if (calculated && isTyping) {
+						this.props.onChange(calculated);
+					} else if (isTyping) {
+						const transNumb = transformToNumber(value, decimalParser);
+						this.props.onChange(transNumb)
+					}
+				}
+				} else {
+						this.props.value ? this.props.onChange(undefined) : this.setState({
+							value: '',
+							typing: undefined
+						});
+				}
 	}
 
 	handleOnChange(e) {
@@ -139,17 +128,8 @@ class NumberInput extends PureComponent {
 	}
 
 	tryCalculateString = (string, usedParsersInStrings) => {
-		const foundMathParsers = findMatchesInArray(usedParsersInStrings, MATH_OPERATORS);
-		const floatsInString = string
-			.split(new RegExp(`[${foundMathParsers.join(',')}]`))
-			.map(x => x.trim());
-		const numbersFromFloatsInString = floatsInString.map(float => transformToNumber(float, this.state.decimalParser));
-		let newString = string;
-		floatsInString.forEach( (fis, index) => {
-			newString = newString.replace(fis, numbersFromFloatsInString[index]);
-		});
 		try {
-			return eval(newString);
+			return eval(string);
 		} catch (e) {
 			return undefined;
 		}
