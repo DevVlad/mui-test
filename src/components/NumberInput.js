@@ -20,8 +20,7 @@ const getUniqueElemFromArray = (array) => {
 const getParsersFromString = (string) => {
 	let parsers = [];
 	string.split('').forEach(subString => {
-		const cond = /\D/.test(subString);
-		if (subString !== (' ' || '0') && cond) parsers.push(subString);
+		if (/\D/.test(subString)) parsers.push(subString);
 	});
 	return parsers;
 };
@@ -29,11 +28,10 @@ const getParsersFromString = (string) => {
 const transformToNumber = (string, decimalParser) => {
 	let output = string.trim();
 	let usedParsersInStrings = getParsersFromString(output);
-	console.log(usedParsersInStrings);
 	// only one parser in string
 	if (usedParsersInStrings.length === 1) {
 		const parser = usedParsersInStrings[0];
-		output = string.split(parser).join('.');
+		output = string.split(parser).join(parser !== decimalParser ? '' : '.');
 	} else if (usedParsersInStrings.length > 1) {
 		// more than 1 parser in string
 		let localOutput = string;
@@ -51,6 +49,7 @@ const transformToNumber = (string, decimalParser) => {
 		}
 		output = localOutput;
 	}
+	console.log(output);
 	return parseFloat(output) || undefined;
 };
 
