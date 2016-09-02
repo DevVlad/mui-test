@@ -102,7 +102,7 @@ class NumberInput extends PureComponent {
 	componentWillReceiveProps(newProps) {
 		if (newProps.value !== this.props.value) {
 			this.setState({
-				value: isNaN(newProps.value) ? 0 : new Intl.NumberFormat(newProps.locale || this.props.locale).format(newProps.value),
+				value: isNaN(newProps.value) ? '' : new Intl.NumberFormat(newProps.locale || this.props.locale).format(newProps.value),
 				isTyping: undefined
 			});
 		}
@@ -110,14 +110,25 @@ class NumberInput extends PureComponent {
 
 	handleOnBlur() {
 		const { value, decimalParser, isTyping } = this.state;
-		if (value !== 0) {
-			const calculated = this.tryCalculateString(value, getParsersFromString(value));
-			if (calculated && isTyping) {
-				this.props.onChange(calculated);
-			} else if (isTyping) {
-				this.props.onChange(transformToNumber(value, decimalParser));
-			}
-		}
+        const validInput = !/[a-z]+/.test(value);
+
+        if (validInput) {
+            if (value !== 0) {
+    			const calculated = this.tryCalculateString(value, getParsersFromString(value));
+    			if (calculated && isTyping) {
+    				this.props.onChange(calculated);
+    			} else if (isTyping) {
+                    const transNumb = transformToNumber(value, decimalParser);
+    				this.props.onChange(transNumb)
+    			}
+    		}
+        } else {
+            this.props.value ? this.props.onChange(undefined) : this.setState({
+                value: '',
+                typing: undefined
+            });
+        }
+
 	}
 
 	handleOnChange(e) {
@@ -137,11 +148,9 @@ class NumberInput extends PureComponent {
 		floatsInString.forEach( (fis, index) => {
 			newString = newString.replace(fis, numbersFromFloatsInString[index]);
 		});
-		console.log(newString);
 		try {
 			return eval(newString);
 		} catch (e) {
-			console.log('tryCalculateString: ', e);
 			return undefined;
 		}
 	}
