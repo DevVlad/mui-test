@@ -1,20 +1,7 @@
 import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
-
 import { transformProps } from './utils/material.js';
 import PureComponent from 'react-pure-render/component';
-
-const MATH_OPERATORS = ['*', '+', '/', '-'];
-
-const findMatchesInArray = (array, searched) => {
-	let match = [];
-	array.forEach( (elem, index) => {
-		const re = new RegExp(`[\\${elem}]`);
-		const founded = re.test(searched.toString());
-		if (founded && match.indexOf(elem) === -1) match.push(elem);
-	});
-	return match;
-};
 
 //searching for original parser in string - if non return undefined
 const getUniqueElemFromArray = (array) => {
@@ -33,21 +20,20 @@ const getUniqueElemFromArray = (array) => {
 const getParsersFromString = (string) => {
 	let parsers = [];
 	string.split('').forEach(subString => {
-		if (/(\D)/.test(subString)) parsers.push(subString);
+		const cond = /\D/.test(subString);
+		if (subString !== (' ' || '0') && cond) parsers.push(subString);
 	});
 	return parsers;
 };
 
 const transformToNumber = (string, decimalParser) => {
-	let usedParsersInStrings = getParsersFromString(string);
-	// try to calculate string if it is possible
-	let output = string;
+	let output = string.trim();
+	let usedParsersInStrings = getParsersFromString(output);
+	console.log(usedParsersInStrings);
 	// only one parser in string
 	if (usedParsersInStrings.length === 1) {
 		const parser = usedParsersInStrings[0];
-		if (parser !== decimalParser) {
-			output = string.split(parser).join((parser === '.' || parser === ',') ? '.' : '');
-		} else output = string.split(parser).join('.');
+		output = string.split(parser).join('.');
 	} else if (usedParsersInStrings.length > 1) {
 		// more than 1 parser in string
 		let localOutput = string;
@@ -108,27 +94,37 @@ class NumberInput extends PureComponent {
 		}
 	}
 
+	parseStr = (str, operators) => {
+		const usedOps = operators.filter(op => str.includes(op));
+		let newStr = str;
+		usedOps.forEach(op => {
+			newStr = newStr.replace(op, '/').trim();
+		});
+		newStr.split('/').forEach(numb => {
+			str = str.replace(numb, transformToNumber(numb, this.state.decimalParser));
+		});
+		return str;
+	};
+
 	handleOnBlur() {
 		const { value, decimalParser, isTyping } = this.state;
-        const validInput = !/[a-z]+/.test(value);
 
-        if (validInput) {
-            if (value !== 0) {
-    			const calculated = this.tryCalculateString(value, getParsersFromString(value));
-    			if (calculated && isTyping) {
-    				this.props.onChange(calculated);
-    			} else if (isTyping) {
-                    const transNumb = transformToNumber(value, decimalParser);
-    				this.props.onChange(transNumb)
-    			}
-    		}
-        } else {
-            this.props.value ? this.props.onChange(undefined) : this.setState({
-                value: '',
-                typing: undefined
-            });
-        }
-
+		if (!/[a-z]+/i.test(value)) {
+			if (value !== 0) {
+				const calculated = this.tryCalculateString(value, getParsersFromString(value));
+				if (calculated && isTyping) {
+					this.props.onChange(calculated);
+				} else if (isTyping) {
+					const transNumb = transformToNumber(value, decimalParser);
+					this.props.onChange(transNumb)
+				}
+			}
+		} else {
+			this.props.value ? this.props.onChange(undefined) : this.setState({
+				value: '',
+				typing: undefined
+			});
+		}
 	}
 
 	handleOnChange(e) {
@@ -138,18 +134,11 @@ class NumberInput extends PureComponent {
 		});
 	}
 
+
 	tryCalculateString = (string, usedParsersInStrings) => {
-		const foundMathParsers = findMatchesInArray(usedParsersInStrings, MATH_OPERATORS);
-		const floatsInString = string
-			.split(new RegExp(`[${foundMathParsers.join(',')}]`))
-			.map(x => x.trim());
-		const numbersFromFloatsInString = floatsInString.map(float => transformToNumber(float, this.state.decimalParser));
-		let newString = string;
-		floatsInString.forEach( (fis, index) => {
-			newString = newString.replace(fis, numbersFromFloatsInString[index]);
-		});
+		const mathOp = ['/', '*', '-', '+'];
 		try {
-			return eval(newString);
+			return eval(this.parseStr(string, mathOp));
 		} catch (e) {
 			return undefined;
 		}

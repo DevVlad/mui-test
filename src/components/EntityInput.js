@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import DropdownInput from './DropdownInput.js';
 import { EntityDuck } from '../redux/ducks/EntityDuck.js';
 import { connect } from 'react-redux';
-import AutoComplete from './material-ui/AutoComplete.js';
 import lodash from 'lodash';
 import { toJS } from './utils/immutable.js';
 import { colors } from './utils/material.js';
@@ -89,7 +88,7 @@ class EntityInput extends PureComponent {
 				onFilterChange={this._handleFilterChange}
 				onMenuToggle={this._handleMenuToggle}
 				onChange={this._handleChange}
-				filter={AutoComplete.noFilter}
+				filter={() => true}
 				data={list || []}
 				entity={entity}
 				plugins={[this.morePlugin, this.addCirclePlugin]}

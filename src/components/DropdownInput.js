@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import AutoComplete from './material-ui/AutoComplete.js';
+import AutoComplete from 'material-ui/AutoComplete';
 import { transformProps, colors } from './utils/material.js';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import lodash from 'lodash';
@@ -147,6 +147,7 @@ class DropdownInput extends PureComponent {
 					onBlur={this._handleBlur.bind(this)}
 					onKeyDown={this._handleKeyDown.bind(this)}
 					onMenuToggle={this.props.onMenuToggle}
+					inputStyle={{ paddingLeft: '5px' }}
 					filter={filter}
 					animated={false}
 					afterInput={

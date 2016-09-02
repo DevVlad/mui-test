@@ -6,14 +6,12 @@ import TestDuck from './redux/ducks/TestDuck.js';
 import TextInput from './components/TextInput.js';
 import DropdownInput from './components/DropdownInput.js';
 import EntityInput from './components/EntityInput.js';
-import AutoComplete from './components/material-ui/AutoComplete.js';
 import TimeInput from './components/TimeInput.js';
 import DateInput from './components/DateInput.js';
 import ToggleInput from './components/ToggleInput.js';
 import CheckboxInput from './components/CheckboxInput.js';
 import NumberInput from './components/NumberInput.js';
 import TextareaInput from './components/TextareaInput.js';
-// import AutoComplete from 'material-ui/AutoComplete';
 
 import { Flex, Box } from 'reflexbox';
 
