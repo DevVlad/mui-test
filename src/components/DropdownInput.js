@@ -147,6 +147,7 @@ class DropdownInput extends PureComponent {
 					onBlur={this._handleBlur.bind(this)}
 					onKeyDown={this._handleKeyDown.bind(this)}
 					onMenuToggle={this.props.onMenuToggle}
+					inputStyle={{ paddingLeft: '5px' }}
 					filter={filter}
 					animated={false}
 					afterInput={

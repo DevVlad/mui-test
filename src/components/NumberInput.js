@@ -104,7 +104,6 @@ class NumberInput extends PureComponent {
 				if (validInput) {
 					if (value !== 0) {
 					const calculated = this.tryCalculateString(value, getParsersFromString(value));
-					console.log(value, calculated);
 					if (calculated && isTyping) {
 						this.props.onChange(calculated);
 					} else if (isTyping) {
