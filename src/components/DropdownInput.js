@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import AutoComplete from './material-ui/AutoComplete.js';
+import AutoComplete from 'material-ui/AutoComplete';
 import { transformProps, colors } from './utils/material.js';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import lodash from 'lodash';

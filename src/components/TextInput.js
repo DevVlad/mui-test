@@ -35,9 +35,8 @@ class TextInput extends PureComponent {
 	render() {
 		return (
 			<TextField
-			// <input type="text"
 				{ ...transformProps(TextField, this.props) }
-				value={this.props.value}
+				value={this.props.value || ''}
 				onChange={this.handleChange}
 				onBlur={this.handleBlur}
 				inputStyle={{ paddingLeft: '5px' }}
