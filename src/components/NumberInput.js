@@ -20,23 +20,20 @@ const getUniqueElemFromArray = (array) => {
 const getParsersFromString = (string) => {
 	let parsers = [];
 	string.split('').forEach(subString => {
-		if (/(\D)/.test(subString)) parsers.push(subString);
+		const cond = /\D/.test(subString);
+		if (subString !== (' ' || '0') && cond) parsers.push(subString);
 	});
 	return parsers;
 };
 
 const transformToNumber = (string, decimalParser) => {
-	let usedParsersInStrings = getParsersFromString(string);
-	// try to calculate string if it is possible
-	let output = string;
+	let output = string.trim();
+	let usedParsersInStrings = getParsersFromString(output);
+	console.log(usedParsersInStrings);
 	// only one parser in string
 	if (usedParsersInStrings.length === 1) {
 		const parser = usedParsersInStrings[0];
-		if (parser !== decimalParser) {
-			output = string.split(parser).join((parser === '.' || parser === ',') ? '.' : '');
-		} else {
-			output = string.split(parser).join('.');
-		}
+		output = string.split(parser).join('.');
 	} else if (usedParsersInStrings.length > 1) {
 		// more than 1 parser in string
 		let localOutput = string;
@@ -97,6 +94,18 @@ class NumberInput extends PureComponent {
 		}
 	}
 
+	parseStr = (str, operators) => {
+		const usedOps = operators.filter(op => str.includes(op));
+		let newStr = str;
+		usedOps.forEach(op => {
+			newStr = newStr.replace(op, '/').trim();
+		});
+		newStr.split('/').forEach(numb => {
+			str = str.replace(numb, transformToNumber(numb, this.state.decimalParser));
+		});
+		return str;
+	};
+
 	handleOnBlur() {
 		const { value, decimalParser, isTyping } = this.state;
 
@@ -125,9 +134,11 @@ class NumberInput extends PureComponent {
 		});
 	}
 
+
 	tryCalculateString = (string, usedParsersInStrings) => {
+		const mathOp = ['/', '*', '-', '+'];
 		try {
-			return eval(string);
+			return eval(this.parseStr(string, mathOp));
 		} catch (e) {
 			return undefined;
 		}
