@@ -49,7 +49,6 @@ const transformToNumber = (string, decimalParser) => {
 		}
 		output = localOutput;
 	}
-	console.log(output);
 	return parseFloat(output) || undefined;
 };
 
