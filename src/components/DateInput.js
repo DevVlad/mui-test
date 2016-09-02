@@ -236,4 +236,9 @@ class DateInput extends PureComponent {
 	}
 }
 
+export const _private = {
+	DATE_PART,
+	parseDate
+};
+
 export default DateInput;
