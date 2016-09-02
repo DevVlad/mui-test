@@ -36,6 +36,7 @@ class TimeInput extends PureComponent{
 	}
 
 	componentWillReceiveProps(newProps) {
+		console.log('newProps', newProps.value);
 		if (!newProps.value) {
 			this.setState({
 				toDisplay: '',
@@ -76,17 +77,16 @@ class TimeInput extends PureComponent{
 
 	handleOnBlur(e) {
 		const elem = e.target.value;
-        const validInput = !/[a-z]+/.test(elem);
-
+		const validInput = !/[a-z]+/.test(elem);
 		if (elem && validInput) {
 			const outputDate = this.makeADate(elem);
-			if (this.getFormatedTime(outputDate) !== this.getFormatedTime(this.props.value)) this.props.onChange(outputDate);
+			this.props.onChange(outputDate);
 		} else {
 			if (this.props.value) {
-                this.props.onChange(undefined);
-            } else {
-                this.setState({toDisplay: '', typing: false});
-            }
+				this.props.onChange(undefined);
+			} else {
+				this.setState({toDisplay: '', typing: false});
+			}
 		}
 		if (this.state.typing) this.setState({typing: false});
 	}
