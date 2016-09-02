@@ -8,7 +8,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "lodash": "^4.14.2",
-    "material-ui": "0.15.4-flexi-1",
+    "material-ui": "0.15.4-flexi-2",
     "moment": "^2.14.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
