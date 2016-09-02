@@ -31,7 +31,7 @@ const transformToNumber = (string, decimalParser) => {
 	// only one parser in string
 	if (usedParsersInStrings.length === 1) {
 		const parser = usedParsersInStrings[0];
-		output = string.split(parser).join(parser !== decimalParser ? '' : '.');
+		output = string.split(parser).join(parser == decimalParser || ',' || '.' ? '.' : '');
 	} else if (usedParsersInStrings.length > 1) {
 		// more than 1 parser in string
 		let localOutput = string;
@@ -49,7 +49,6 @@ const transformToNumber = (string, decimalParser) => {
 		}
 		output = localOutput;
 	}
-	console.log(output);
 	return parseFloat(output) || undefined;
 };
 
@@ -112,17 +111,28 @@ class NumberInput extends PureComponent {
 			if (value !== 0) {
 				const calculated = this.tryCalculateString(value, getParsersFromString(value));
 				if (calculated && isTyping) {
-					this.props.onChange(calculated);
+					if (calculated !== this.props.value) {
+						this.props.onChange(calculated);
+					} else {
+						this.setState({
+							value: new Intl.NumberFormat(this.props.locale).format(value),
+							typing: undefined
+						});
+					}
 				} else if (isTyping) {
 					const transNumb = transformToNumber(value, decimalParser);
 					this.props.onChange(transNumb)
 				}
 			}
 		} else {
-			this.props.value ? this.props.onChange(undefined) : this.setState({
-				value: '',
-				typing: undefined
-			});
+			if (this.props.value) {
+				this.props.onChange(undefined)
+			} else {
+				this.setState({
+					value: '',
+					typing: undefined
+				});
+			};
 		}
 	}
 
