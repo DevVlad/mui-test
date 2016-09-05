@@ -6,7 +6,7 @@ describe('NumberInput function tests', () => {
 		expect(transformToNumber('1 245 569.36', '.')).toEqual(1245569.36);
 		expect(transformToNumber('1,245,36.23', '.')).toEqual(124536.23);
 		expect(transformToNumber('1 000 000', '.')).toEqual(1000000);
-		expect(transformToNumber('1,245.36 56', '.')).toEqual(12453656);
+		expect(transformToNumber('1,245.36 56', '.')).toEqual(1245.36);
 	});
 
 	it('getParsersFromString', () => {
