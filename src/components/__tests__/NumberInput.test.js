@@ -1,3 +1,4 @@
+import NumberInput from '../NumberInput.js';
 const { transformToNumber, getParsersFromString, getUniqueElemFromArray } = require('../NumberInput.js')._private;
 
 describe('NumberInput function tests', () => {
@@ -17,6 +18,13 @@ describe('NumberInput function tests', () => {
 
 	it('getParsersFromString', () => {
 		expect(getParsersFromString('10 0/2*9-8+9')).toEqual([" ", "/", "*", "-", "+"]);
+	});
+
+	it('tryCalculateString', () => {
+		const input = new NumberInput();
+		const a = '10+8/2+1';
+		const b = input.tryCalculateString(a, getParsersFromString(a));
+		expect(b).toEqual(15);
 	});
 
 });

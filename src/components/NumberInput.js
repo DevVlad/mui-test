@@ -95,9 +95,9 @@ class NumberInput extends PureComponent {
 		const usedOps = operators.filter(op => str.includes(op));
 		let newStr = str;
 		usedOps.forEach(op => {
-			newStr = newStr.replace(op, '/').trim();
+			newStr = newStr.replace(new RegExp('\\' + op, 'g'), '|').trim();
 		});
-		newStr.split('/').forEach(numb => {
+		newStr.split('|').forEach(numb => {
 			str = str.replace(numb, transformToNumber(numb, this.state.decimalParser));
 		});
 		return str;
