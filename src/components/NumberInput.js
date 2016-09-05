@@ -19,8 +19,8 @@ const getUniqueElemFromArray = (array) => {
 
 const getParsersFromString = (string) => {
 	let parsers = [];
-	string.split('').forEach(subString => {
-		if (/\D/.test(subString)) parsers.push(subString);
+	string.split('').forEach(char => {
+		if (/\D/.test(char)) parsers.push(char);
 	});
 	return parsers;
 };
@@ -31,7 +31,7 @@ const transformToNumber = (string, decimalParser) => {
 	// only one parser in string
 	if (usedParsersInStrings.length === 1) {
 		const parser = usedParsersInStrings[0];
-		output = string.split(parser).join(parser == decimalParser || ',' || '.' ? '.' : '');
+		output = string.replace(parser, parser == decimalParser || ',' || '.' ? '.' : '');
 	} else if (usedParsersInStrings.length > 1) {
 		// more than 1 parser in string
 		let localOutput = string;
@@ -45,7 +45,7 @@ const transformToNumber = (string, decimalParser) => {
 		});
 		//case: no decimalParser found in string, but one original parser found
 		if (!decimalParserFound && uniqueParserFromUsed) {
-			localOutput = localOutput.split(uniqueParserFromUsed).join('.');
+			localOutput = localOutput.replace(uniqueParserFromUsed, '.');
 		}
 		output = localOutput;
 	}
@@ -166,6 +166,12 @@ class NumberInput extends PureComponent {
 			</div>
 		);
 	}
+};
+
+export const _private = {
+	transformToNumber,
+	getParsersFromString,
+	getUniqueElemFromArray
 };
 
 export default NumberInput;
