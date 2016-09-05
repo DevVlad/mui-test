@@ -72,7 +72,6 @@ class NumberInput extends PureComponent {
 	constructor() {
 		super();
 		this.state = {value: ''};
-		this.calcString = [];
 	}
 
 	componentWillMount() {
