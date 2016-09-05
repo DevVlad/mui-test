@@ -1,6 +1,7 @@
 const { transformToNumber, getParsersFromString, getUniqueElemFromArray } = require('../NumberInput.js')._private;
 
 describe('NumberInput function tests', () => {
+	const { transformToNumber, getParsersFromString, getUniqueElemFromArray } = pr;
 	it('transformToNumber', () => {
 		expect(transformToNumber('1 245.36', '.')).toEqual(1245.36);
 		expect(transformToNumber('1 245 569.36', '.')).toEqual(1245569.36);
