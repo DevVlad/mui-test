@@ -75,10 +75,8 @@ class NumberInput extends PureComponent {
 	}
 
 	componentWillMount() {
-		const localeExample = new Intl.NumberFormat(this.props.locale).format(55.66);
-		const reDecimal = /\b(?:\d*?(\D+))+/;
 		this.setState({
-			decimalParser: reDecimal.exec(localeExample)[1]
+			decimalParser: /55(\D)/.exec(new Intl.NumberFormat(this.props.locale).format(55.66))[1]
 		});
 	}
 
