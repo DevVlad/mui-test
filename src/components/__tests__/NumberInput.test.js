@@ -30,6 +30,9 @@ describe('NumberInput function tests', () => {
 
 		a = '  10/2 + 5,75 + 4.25';
 		expect(ni.tryCalculateString(a, getParsersFromString(a))).toEqual(15);
+
+		a = '1\'000\'000+20- 10';
+		expect(ni.tryCalculateString(a, getParsersFromString(a))).toEqual(1000010);
 	});
 
 });
