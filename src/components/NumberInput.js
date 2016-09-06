@@ -100,29 +100,6 @@ class NumberInput extends PureComponent {
 				return transformToNumber(s, this.state.decimalParser);
 			}
 		}).join('');
-
-		// const numbers = str.split(new RegExp('\\' + operators.join('|\\'), 'g'));
-		// let newStr = str;
-		// numbers.forEach(n => newStr = newStr.replace(n, transformToNumber(n, this.state.decimalParser)));
-		// return newStr;
-
-		// return str.split(/(\d+[.|,]?\d{0,})/g).map((part, i) => {
-		// 	if (/(\d+[.|,]?\d{0,})/.test(part)) {
-		// 		return transformToNumber(part, this.state.decimalParser);
-		// 	} else {
-		// 		return part.trim();
-		// 	}
-		// }).join('');
-
-		// const usedOps = operators.filter(op => str.includes(op));
-		// let newStr = str;
-		// usedOps.forEach(op => {
-		// 	newStr = newStr.replace(new RegExp('\\' + op, 'g'), '|').trim();
-		// });
-		// newStr.split('|').forEach(numb => {
-		// 	str = str.replace(numb, transformToNumber(numb, this.state.decimalParser));
-		// });
-		// return str;
 	};
 
 	handleOnBlur() {
