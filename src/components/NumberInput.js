@@ -17,13 +17,7 @@ const getUniqueElemFromArray = (array) => {
 	return oneAndOnlyOriginalParser;
 };
 
-const getParsersFromString = (string) => {
-	let parsers = [];
-	string.split('').forEach(char => {
-		if (/\D/.test(char)) parsers.push(char);
-	});
-	return parsers;
-};
+const getParsersFromString = (string) => string.match(/\D/g) || [];
 
 const transformToNumber = (string, decimalParser) => {
 	let output = string.trim();
