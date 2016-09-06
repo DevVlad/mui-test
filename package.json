@@ -77,9 +77,10 @@
     "test": "jest"
   },
   "jest": {
-	"scriptPreprocessor": "./config/jest/transform.js",
-      "setupFiles": [
-        "./config/polyfills.js"
+    "automock": false,
+    "scriptPreprocessor": "./config/jest/transform.js",
+    "setupFiles": [
+      "./config/polyfills.js"
     ]
   },
   "eslintConfig": {

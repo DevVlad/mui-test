@@ -92,15 +92,37 @@ class NumberInput extends PureComponent {
 	}
 
 	parseStr = (str, operators) => {
-		const usedOps = operators.filter(op => str.includes(op));
-		let newStr = str;
-		usedOps.forEach(op => {
-			newStr = newStr.replace(new RegExp('\\' + op, 'g'), '|').trim();
-		});
-		newStr.split('|').forEach(numb => {
-			str = str.replace(numb, transformToNumber(numb, this.state.decimalParser));
-		});
-		return str;
+		const opReg = new RegExp('[^\\' + operators.join('\\') + ']+|[\\' + operators.join('\\') + ']', 'g');
+		return str.match(opReg).map( s => {
+			if (operators.indexOf(s) >= 0) {
+				return s;
+			} else {
+				return transformToNumber(s, this.state.decimalParser);
+			}
+		}).join('');
+
+		// const numbers = str.split(new RegExp('\\' + operators.join('|\\'), 'g'));
+		// let newStr = str;
+		// numbers.forEach(n => newStr = newStr.replace(n, transformToNumber(n, this.state.decimalParser)));
+		// return newStr;
+
+		// return str.split(/(\d+[.|,]?\d{0,})/g).map((part, i) => {
+		// 	if (/(\d+[.|,]?\d{0,})/.test(part)) {
+		// 		return transformToNumber(part, this.state.decimalParser);
+		// 	} else {
+		// 		return part.trim();
+		// 	}
+		// }).join('');
+
+		// const usedOps = operators.filter(op => str.includes(op));
+		// let newStr = str;
+		// usedOps.forEach(op => {
+		// 	newStr = newStr.replace(new RegExp('\\' + op, 'g'), '|').trim();
+		// });
+		// newStr.split('|').forEach(numb => {
+		// 	str = str.replace(numb, transformToNumber(numb, this.state.decimalParser));
+		// });
+		// return str;
 	};
 
 	handleOnBlur() {
@@ -114,7 +136,7 @@ class NumberInput extends PureComponent {
 						this.props.onChange(calculated);
 					} else {
 						this.setState({
-							value: new Intl.NumberFormat(this.props.locale).format(value),
+							value: new Intl.NumberFormat(this.props.locale).format(this.props.value),
 							typing: undefined
 						});
 					}
@@ -146,8 +168,9 @@ class NumberInput extends PureComponent {
 	tryCalculateString = (string, usedParsersInStrings) => {
 		const mathOp = ['/', '*', '-', '+'];
 		try {
-			return eval(this.parseStr(string, mathOp));
+			return eval(this.parseStr(string.trim(), mathOp));
 		} catch (e) {
+			console.error(e);
 			return undefined;
 		}
 	}

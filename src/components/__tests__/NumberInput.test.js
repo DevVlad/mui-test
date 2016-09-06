@@ -21,10 +21,15 @@ describe('NumberInput function tests', () => {
 	});
 
 	it('tryCalculateString', () => {
-		const input = new NumberInput();
-		const a = '10+8/2+1';
-		const b = input.tryCalculateString(a, getParsersFromString(a));
-		expect(b).toEqual(15);
+		const ni = new NumberInput();
+		let a = '10+8/2+1';
+		expect(ni.tryCalculateString(a, getParsersFromString(a))).toEqual(15);
+
+		a = '  10/2 + 5,00 * 2';
+		expect(ni.tryCalculateString(a, getParsersFromString(a))).toEqual(15);
+
+		a = '  10/2 + 5,75 + 4.25';
+		expect(ni.tryCalculateString(a, getParsersFromString(a))).toEqual(15);
 	});
 
 });
