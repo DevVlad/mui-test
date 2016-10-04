@@ -90,6 +90,10 @@ const parseDate = (parts, text) => {
 };
 
 class DateInput extends PureComponent {
+	static contextTypes = {
+		escSuppression: PropTypes.func
+	};
+
 	static propTypes = {
 		label: PropTypes.string,
 		onChange: PropTypes.func,
@@ -100,6 +104,7 @@ class DateInput extends PureComponent {
 		locale: PropTypes.string,
 		warnText: PropTypes.string,
 		errorText: PropTypes.string,
+		onShow: PropTypes.func
 	};
 
 	static defaultProps = {
@@ -111,7 +116,7 @@ class DateInput extends PureComponent {
 		super(props);
 		this.state = {
 			toDisplay: '',
-			typing: false,
+			typing: false
 		};
 	}
 
@@ -147,7 +152,7 @@ class DateInput extends PureComponent {
 
 	handleOnBlur(e) {
 		const elem = e.target.value;
-        const validInput = !/[a-z]+/.test(elem);
+		const validInput = !/[a-z]+/.test(elem);
 
 		if (elem && validInput) {
 			// const newDate = parseDate(['D', 'M', 'Y'], elem);
@@ -155,19 +160,22 @@ class DateInput extends PureComponent {
 			this.props.onChange(newDate);
 		} else {
 			if (this.props.value) {
-                this.props.onChange(undefined);
-            }
+				this.props.onChange(undefined);
+			}
 		}
 		if (this.state.typing) {
-            this.setState({
-                typing: false,
-                toDisplay: !validInput ? '' : elem
-            });
-        }
+			this.setState({
+					typing: false,
+					toDisplay: !validInput ? '' : elem
+			});
+		}
 	}
 
 	handleOnChangeOfDatePicker(date) {
 		this.props.onChange(date);
+		if (this.props.onShow) {
+			this.props.onShow(false);
+		}
 		if (this.state.typing) this.setState({ typing: false });
 	}
 
@@ -183,7 +191,12 @@ class DateInput extends PureComponent {
 					color={ colors.disabled }
 					hoverColor={ colors.info }
 					style={{ ...style, width: '18px', height: '18px' }}
-					onClick={ () => { this.refs.datePicker.show() } }
+					onClick={ () => {
+						this.refs.datePicker.show();
+						if (this.props.onShow) {
+							this.props.onShow(true);
+						}
+					} }
 				/>
 			);
 		}
@@ -204,10 +217,10 @@ class DateInput extends PureComponent {
 	};
 
 	render() {
+		console.log(this.context);
 		const { enableMousePicker, value, errorText, warnText, passText } = this.props;
 		return (
 			<div>
-
 				<TextField
 					{ ...transformProps(TextField, this.props) }
 					onBlur={ this.handleOnBlur.bind(this) }
@@ -224,10 +237,15 @@ class DateInput extends PureComponent {
 					}
 				/>
 				<DatePickerDialog
-					ref='datePicker'
+					ref="datePicker"
 					firstDayOfWeek={ 1 }
 					onAccept={ this.handleOnChangeOfDatePicker.bind(this) }
 					DateTimeFormat={ global.Intl.DateTimeFormat }
+					onDismiss={ () => {
+						if (this.props.onShow) {
+							this.props.onShow(false);
+						}
+					}}
 					initialDate={ value || new Date() }
 					locale={ this.props.locale }
 				/>

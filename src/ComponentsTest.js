@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TestDuck from './redux/ducks/TestDuck.js';
 import TextInput from './components/TextInput.js';
@@ -12,8 +12,12 @@ import ToggleInput from './components/ToggleInput.js';
 import CheckboxInput from './components/CheckboxInput.js';
 import NumberInput from './components/NumberInput.js';
 import TextareaInput from './components/TextareaInput.js';
-
 import { Flex, Box } from 'reflexbox';
+import { keymap } from './keymap.js';
+import { ShortcutManager, Shortcuts } from 'react-shortcuts';
+import $ from 'jquery';
+
+const shortcutManager = new ShortcutManager(keymap);
 
 const DATA = [
 	{ id: 0, name: 'monday' },
@@ -34,13 +38,14 @@ const kontaktCondition = t => KONTAKT_FIELDS.map(f => ({ left: f, right: `${t}` 
 const entityName = e => e.name;
 const entityId = e => e.id;
 
-import Immutable from 'immutable';
-
 class ComponentsTest extends React.Component {
+	static contextTypes = {
+		shortcuts: PropTypes.object.isRequired
+	};
 
 	constructor() {
 		super();
-		this.state = { defaultEntityId: 107 };
+		this.state = { defaultEntityId: 107, stackOfOpens: 0 };
 	}
 
 	componentWillMount() {
@@ -77,9 +82,69 @@ class ComponentsTest extends React.Component {
 
 	};
 
+	renderModal() {
+		return (
+			<div id="shortcutTestingModal" className="modal fade" role="dialog">
+				<div className="modal-dialog">
+					<div className="modal-content">
+						<div className="modal-header">
+							<button type="button" className="close" data-dismiss="modal">&times;</button>
+							<h4 className="modal-title">Shortcuts testing Modal</h4>
+						</div>
+						<div className="modal-body">
+							<DateInput
+								label="Date"
+								onChange={ this.props.setDate }
+								value={ this.props.date }
+								enableMousePicker
+								locale="cs"
+								errorText={ this.errorMsg }
+								warnText={ this.warningMsg }
+								onShow={ (bool) => {
+									const res = bool ? 1 : -1;
+									this.setState({
+										stackOfOpens: this.state.stackOfOpens + res
+									});
+								}}
+							/>
+							<br/>
+							<TextInput
+								label="Text"
+								value={this.props.text}
+								onChange={this.props.setText}
+								errorText={ this.errorMsg }
+								warnText={ this.warningMsg }
+							/>
+						</div>
+						<div className="modal-footer">
+							<button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	handlerShortcuts(action, event) {
+		switch (action) {
+			case 'close':
+				console.log('esc-action', this.state, event);
+				if (this.state.stackOfOpens > 0) {
+					event.preventDefault();
+					console.log('jede dal');
+				} else {
+					event.stopPropagation();
+					console.log('zavru modal');
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
 	render() {
 		return (
-			<Flex>
+			<Flex id="xxx">
 				<Box col={4}>
 					<CheckboxInput
 						label="Provide error msg"
@@ -98,6 +163,12 @@ class ComponentsTest extends React.Component {
 						value={ this.props.longNtfProvider }
 						onChange={ this.handleLongNtfProvider }
 					/>
+				<br/>
+				<Shortcuts name="app" handler={this.handlerShortcuts.bind(this)} targetNodeSelector="#xxx">
+					<button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#shortcutTestingModal">Open DateInputModal</button>
+					{this.renderModal()}
+				</Shortcuts>
+
 				</Box>
 				<Box col={4}>
 					<TextInput
@@ -274,7 +345,7 @@ class ComponentsTest extends React.Component {
 	}
 }
 
-export default connect(
+ComponentsTest = connect(
 	...TestDuck.connect(
 		'text',
 		'other',
@@ -292,134 +363,23 @@ export default connect(
 		'textarea'
 ))(ComponentsTest);
 
-{/*}<div>
-	<CheckboxInput
-		label="Provide error msg"
-		value={ this.props.errorProvider }
-		onChange={ this.handleProvideError }
-	/>
-	<CheckboxInput
-		label="Provide warning msg"
-		value={ this.props.warnProvider }
-		onChange={ this.handleProvideWarn }
-	/>
-	<CheckboxInput
-		label="Enable long notifications"
-		value={ this.props.longNtfProvider }
-		onChange={ this.handleLongNtfProvider }
-	/>
-	<TextInput
-		label="TextInput1"
-		value={this.props.text}
-		onChange={this.props.setText}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<TextInput
-		label="TextInput2"
-		value={this.props.text}
-		onChange={this.props.setText}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<TextInput
-		label="Other"
-		value={this.props.other}
-		onChange={this.props.setOther}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<EntityInput
-		alias="a"
-		label="EntityInput"
-		entityType="kontakt"
-		entityToText={jmenoPrijmeni}
-		filterToCondition={kontaktCondition}
-		onChange={this.props.setEntityId}
-		value={this.props.entityId || this.defaultEntityId}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<EntityInput
-		alias="a"
-		label="EntityInput"
-		entityType="kontakt"
-		entityToText={jmenoPrijmeni}
-		filterToCondition={kontaktCondition}
-		onChange={this.props.setEntityId}
-		value={this.props.entityId || this.defaultEntityId}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<DropdownInput
-		label="Dropdown strings"
-		value={this.props.dropdown}
-		onChange={this.props.setDropdown}
-		data={DATA_STRINGS}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<DropdownInput
-		label="Dropdown objects"
-		value={this.props.dropdownId}
-		onChange={this.props.setDropdownId}
-		data={DATA}
-		entityToText={entityName}
-		entityToValue={entityId}
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<TimeInput
-		timeFormat={ 24 }
-		label="Time"
-		onChange={ this.props.setTime }
-		locale="cs"
-		value={ this.props.time }
-		enableMousePicker
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br />
-	<DateInput
-		label="Date"
-		onChange={ this.props.setDate }
-		value={ this.props.date }
-		enableMousePicker
-		locale="cs"
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-		// displayFormat="YYYY/MM/DD"
-	/>
-	<br/>
-	<ToggleInput
-		label="Toggle"
-		value={ this.props.toggle }
-		onChange={ this.props.setToggle }
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<CheckboxInput
-		label="Checkbox for some fancy things"
-		value={ this.props.checkbox }
-		onChange={ this.props.setCheckbox }
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-	/>
-	<br/>
-	<NumberInput
-		label="Number"
-		value={ this.props.number }
-		onChange={ this.props.setNumber }
-		errorText={ this.errorMsg }
-		warnText={ this.warningMsg }
-		locale="cs"
-	/>
-</div>*/}
+export default class App extends React.Component {
+	static childContextTypes = {
+		shortcuts: PropTypes.object.isRequired,
+		escSuppression: PropTypes.func.isRequired
+	};
+
+	getChildContext() {
+		return {
+			shortcuts: shortcutManager,
+			escSuppression: (elem) => {$(`#${elem}`).hide()}
+		};
+	}
+
+	render() {
+		return (
+			<ComponentsTest />
+		);
+
+	}
+}
