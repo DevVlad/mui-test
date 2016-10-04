@@ -39,13 +39,23 @@ const entityName = e => e.name;
 const entityId = e => e.id;
 
 class ComponentsTest extends React.Component {
-	static contextTypes = {
-		shortcuts: PropTypes.object.isRequired
+	static childContextTypes = {
+		shortcuts: PropTypes.object,
+		suppressEsc: PropTypes.func,
+		unSuppressEsc: PropTypes.func
 	};
+
+	getChildContext() {
+		return {
+			suppressEsc: () => this.suppressEsc++,
+			unSuppressEsc: () => this.suppressEsc--
+		};
+	}
 
 	constructor() {
 		super();
 		this.state = { defaultEntityId: 107, stackOfOpens: 0 };
+		this.suppressEsc = 0;
 	}
 
 	componentWillMount() {
@@ -365,14 +375,12 @@ ComponentsTest = connect(
 
 export default class App extends React.Component {
 	static childContextTypes = {
-		shortcuts: PropTypes.object.isRequired,
-		escSuppression: PropTypes.func.isRequired
+		shortcuts: PropTypes.object.isRequired
 	};
 
 	getChildContext() {
 		return {
-			shortcuts: shortcutManager,
-			escSuppression: (elem) => {$(`#${elem}`).hide()}
+			shortcuts: shortcutManager
 		};
 	}
 

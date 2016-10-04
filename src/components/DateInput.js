@@ -146,6 +146,8 @@ class DateInput extends PureComponent {
 			const elem = e.target.value;
 			const newDate = parseDate(getDateParts(this.props.locale), elem);
 			if (this.formatDate(newDate) !== this.formatDate(this.props.value)) this.props.onChange(newDate);
+		} else if ( e.keyCode === 27) {
+			this.refs.datePicker.hide();
 		}
 
 	}
