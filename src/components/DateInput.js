@@ -91,7 +91,8 @@ const parseDate = (parts, text) => {
 
 class DateInput extends PureComponent {
 	static contextTypes = {
-		escSuppression: PropTypes.func
+		suppressEsc: PropTypes.func,
+		unSuppressEsc: PropTypes.func
 	};
 
 	static propTypes = {
@@ -146,8 +147,6 @@ class DateInput extends PureComponent {
 			const elem = e.target.value;
 			const newDate = parseDate(getDateParts(this.props.locale), elem);
 			if (this.formatDate(newDate) !== this.formatDate(this.props.value)) this.props.onChange(newDate);
-		} else if ( e.keyCode === 27) {
-			this.refs.datePicker.hide();
 		}
 
 	}
@@ -195,9 +194,7 @@ class DateInput extends PureComponent {
 					style={{ ...style, width: '18px', height: '18px' }}
 					onClick={ () => {
 						this.refs.datePicker.show();
-						if (this.props.onShow) {
-							this.props.onShow(true);
-						}
+						this.context.suppressEsc();
 					} }
 				/>
 			);
@@ -219,7 +216,6 @@ class DateInput extends PureComponent {
 	};
 
 	render() {
-		console.log(this.context);
 		const { enableMousePicker, value, errorText, warnText, passText } = this.props;
 		return (
 			<div>
@@ -243,11 +239,7 @@ class DateInput extends PureComponent {
 					firstDayOfWeek={ 1 }
 					onAccept={ this.handleOnChangeOfDatePicker.bind(this) }
 					DateTimeFormat={ global.Intl.DateTimeFormat }
-					onDismiss={ () => {
-						if (this.props.onShow) {
-							this.props.onShow(false);
-						}
-					}}
+					onDismiss={ () => this.context.unSuppressEsc() }
 					initialDate={ value || new Date() }
 					locale={ this.props.locale }
 				/>

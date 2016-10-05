@@ -39,24 +39,15 @@ const entityName = e => e.name;
 const entityId = e => e.id;
 
 class ComponentsTest extends React.Component {
-	static childContextTypes = {
-		shortcuts: PropTypes.object,
-		suppressEsc: PropTypes.func,
-		unSuppressEsc: PropTypes.func
-	};
-
-	getChildContext() {
-		return {
-			suppressEsc: () => this.suppressEsc++,
-			unSuppressEsc: () => this.suppressEsc--
-		};
-	}
-
 	constructor() {
 		super();
-		this.state = { defaultEntityId: 107, stackOfOpens: 0 };
-		this.suppressEsc = 0;
+		this.state = { defaultEntityId: 107};
 	}
+
+	static contextTypes = {
+		shortcuts: PropTypes.object.isRequired,
+		shouldSuppressEsc: PropTypes.func.isRequired
+	};
 
 	componentWillMount() {
 		if (this.state.defaultEntityId) {
@@ -94,7 +85,7 @@ class ComponentsTest extends React.Component {
 
 	renderModal() {
 		return (
-			<div id="shortcutTestingModal" className="modal fade" role="dialog">
+			<div id="myModal" className="modal fade" role="dialog">
 				<div className="modal-dialog">
 					<div className="modal-content">
 						<div className="modal-header">
@@ -110,12 +101,6 @@ class ComponentsTest extends React.Component {
 								locale="cs"
 								errorText={ this.errorMsg }
 								warnText={ this.warningMsg }
-								onShow={ (bool) => {
-									const res = bool ? 1 : -1;
-									this.setState({
-										stackOfOpens: this.state.stackOfOpens + res
-									});
-								}}
 							/>
 							<br/>
 							<TextInput
@@ -127,7 +112,7 @@ class ComponentsTest extends React.Component {
 							/>
 						</div>
 						<div className="modal-footer">
-							<button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+							<button id="close" type="button" className="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
@@ -138,13 +123,10 @@ class ComponentsTest extends React.Component {
 	handlerShortcuts(action, event) {
 		switch (action) {
 			case 'close':
-				console.log('esc-action', this.state, event);
-				if (this.state.stackOfOpens > 0) {
-					event.preventDefault();
-					console.log('jede dal');
-				} else {
-					event.stopPropagation();
-					console.log('zavru modal');
+				console.log('esc action - shouldSuppressEsc: ', this.context.shouldSuppressEsc());
+				if (!this.context.shouldSuppressEsc()) {
+					console.log('zavrit modal');
+					$('.close').click();
 				}
 				break;
 			default:
@@ -175,7 +157,7 @@ class ComponentsTest extends React.Component {
 					/>
 				<br/>
 				<Shortcuts name="app" handler={this.handlerShortcuts.bind(this)} targetNodeSelector="#xxx">
-					<button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#shortcutTestingModal">Open DateInputModal</button>
+					<button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open DateInputModal</button>
 					{this.renderModal()}
 				</Shortcuts>
 
@@ -374,13 +356,23 @@ ComponentsTest = connect(
 ))(ComponentsTest);
 
 export default class App extends React.Component {
+	constructor() {
+		super();
+		this.suppressEsc = 0;
+	}
 	static childContextTypes = {
-		shortcuts: PropTypes.object.isRequired
+		shortcuts: PropTypes.object.isRequired,
+		suppressEsc: PropTypes.func.isRequired,
+		unSuppressEsc: PropTypes.func.isRequired,
+		shouldSuppressEsc: PropTypes.func.isRequired
 	};
 
 	getChildContext() {
 		return {
-			shortcuts: shortcutManager
+			shortcuts: shortcutManager,
+			suppressEsc: () => this.suppressEsc++,
+			unSuppressEsc: () => this.suppressEsc--,
+			shouldSuppressEsc: () => this.suppressEsc > 0
 		};
 	}
 
